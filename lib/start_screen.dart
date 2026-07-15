@@ -21,7 +21,7 @@ class _StartScreenState extends State<StartScreen> {
   _StartScreenState.navigate(this.navigate);
 
   void onStartQuiz() {
-    navigate(QuestionScreen());
+    navigate(QuestionScreen.navigate(navigate));
   }
 
   @override
