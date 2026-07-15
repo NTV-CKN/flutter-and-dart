@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:second_app/questions_screen.dart';
 
 //Có thể dùng stateless vì chỉ có logic xử lí sự kiện nút nhấn
+// ignore: must_be_immutable
 class StartScreen extends StatefulWidget {
-  const StartScreen({super.key});
+  final void Function(Widget widget) navigate;
+
+  const StartScreen(this.navigate, {super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _StartScreenState();
+    // ignore: no_logic_in_create_state
+    return _StartScreenState.navigate(navigate);
   }
 }
 
 class _StartScreenState extends State<StartScreen> {
-  void onStartQuiz() {}
+  final void Function(Widget widget) navigate;
+
+  _StartScreenState.navigate(this.navigate);
+
+  void onStartQuiz() {
+    navigate(QuestionScreen());
+  }
 
   @override
   Widget build(BuildContext context) {

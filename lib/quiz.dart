@@ -5,13 +5,21 @@ class Quiz extends StatefulWidget {
   const Quiz({super.key});
 
   @override
-  State<StatefulWidget> createState() {
+  State<Quiz> createState() {
     return _QuizState();
   }
 }
 
 class _QuizState extends State<Quiz> {
   final colorsGradient = [Colors.deepPurpleAccent, Colors.indigo];
+
+  late Widget showWidget = StartScreen(navigate);
+
+  void navigate(Widget widget) {
+    setState(() {
+      showWidget = widget;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +33,7 @@ class _QuizState extends State<Quiz> {
               end: Alignment.bottomRight,
             ),
           ),
-          child: const StartScreen(),
+          child: showWidget,
         ),
       ),
     );

@@ -4,7 +4,7 @@ class QuestionScreen extends StatefulWidget {
   const QuestionScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() {
+  State<QuestionScreen> createState() {
     return _QuestionScreenState();
   }
 }
