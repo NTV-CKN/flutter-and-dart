@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 //Có thể dùng stateless vì chỉ có logic xử lí sự kiện nút nhấn
-class HomeQuiz extends StatefulWidget {
-  const HomeQuiz({super.key});
+class StartScreen extends StatefulWidget {
+  const StartScreen({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _HomeQuizState();
+    return _StartScreenState();
   }
 }
 
-class _HomeQuizState extends State<HomeQuiz> {
+class _StartScreenState extends State<StartScreen> {
   void onStartQuiz() {}
 
   @override
@@ -23,6 +23,7 @@ class _HomeQuizState extends State<HomeQuiz> {
           Image.asset(
             '../assets/images/quiz-logo.png',
             width: 200,
+            color: const Color.fromARGB(217, 255, 255, 255),
           ),
 
           SizedBox(
@@ -41,16 +42,20 @@ class _HomeQuizState extends State<HomeQuiz> {
             height: 20,
           ),
 
-          OutlinedButton(
+          OutlinedButton.icon(
             style: OutlinedButton.styleFrom(
+              foregroundColor: Colors.white,
               side: BorderSide(color: Colors.white, width: 2),
             ),
+            icon: Icon(
+              Icons.arrow_right_alt,
+              size: 24,
+            ),
             onPressed: onStartQuiz,
-            child: const Text(
+            label: const Text(
               'Start Quiz',
               style: TextStyle(
                 fontSize: 24,
-                color: Colors.white,
               ),
             ),
           ),
