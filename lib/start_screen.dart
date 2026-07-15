@@ -1,32 +1,21 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+//Có thể dùng stateless vì chỉ có logic xử lí sự kiện nút nhấn
 class HomeQuiz extends StatefulWidget {
-  final colorsGradient = [Colors.deepPurpleAccent, Colors.indigo];
-
-  HomeQuiz({super.key});
+  const HomeQuiz({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    // ignore: no_logic_in_create_state
-    return _HomeQuizState.colorsGradient(colorsGradient);
+    return _HomeQuizState();
   }
 }
 
 class _HomeQuizState extends State<HomeQuiz> {
-  List<Color> colorsGradient;
-
-  _HomeQuizState.colorsGradient(this.colorsGradient);
-
   void onStartQuiz() {}
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(colors: colorsGradient),
-      ),
+    return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
 
