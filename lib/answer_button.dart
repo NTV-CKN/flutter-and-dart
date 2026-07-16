@@ -18,12 +18,10 @@ class AnswerButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.symmetric(
           vertical: 20,
+          horizontal: 20,
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(4),
-        ),
-        fixedSize: Size.fromWidth(
-          MediaQuery.of(context).size.width - 60,
         ),
         backgroundColor: const Color.fromARGB(255, 42, 15, 193),
         foregroundColor: Colors.white,

@@ -60,9 +60,9 @@ class _QuestionScreenState extends State<QuestionScreen> {
       ),
     );
 
-    quiz.answers.shuffle();
+    final copyList = quiz.getShuffleAnswer();
 
-    for (var element in quiz.answers) {
+    for (var element in copyList) {
       results.add(
         AnswerButton(
           generateText(
@@ -96,34 +96,41 @@ class _QuestionScreenState extends State<QuestionScreen> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          for (Widget widget in generateQuestions(
-            questions[currentPos],
-            context,
-          ))
-            widget,
-          SizedBox(
-            height: 40,
-          ),
-          OutlinedButton.icon(
-            style: OutlinedButton.styleFrom(
-              foregroundColor: Colors.white,
-              side: BorderSide(color: Colors.white, width: 2),
+      child: Container(
+        margin: EdgeInsetsDirectional.only(
+          start: 20,
+          end: 20,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            for (Widget widget in generateQuestions(
+              questions[currentPos],
+              context,
+            ))
+              widget,
+            SizedBox(
+              height: 40,
             ),
-            onPressed: () {
-              navigate.call(StartScreen(navigate));
-            },
-            icon: Icon(
-              Icons.exit_to_app,
+            OutlinedButton.icon(
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.white,
+                side: BorderSide(color: Colors.white, width: 2),
+              ),
+              onPressed: () {
+                navigate.call(StartScreen(navigate));
+              },
+              icon: Icon(
+                Icons.exit_to_app,
+              ),
+              label: Text(
+                'Exit',
+                style: TextStyle(fontSize: 24),
+              ),
             ),
-            label: Text(
-              'Exit',
-              style: TextStyle(fontSize: 24),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
