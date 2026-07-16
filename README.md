@@ -1,4 +1,4 @@
-# second_app - Flutter Learning Project
+# Flutter Learning Project
 
 Repository học tập và thực hành **tạo ứng dụng Flutter cơ bản**, chuẩn bị kiến thức và kỹ năng cho những ứng dụng nâng cao hơn.
 
@@ -15,7 +15,7 @@ Mỗi branch trong repository được chia thành các loại ứng dụng khá
 
 - `main` - Branch chính (mặc định)
 - `roll_dice` - Ứng dụng tung xúc xắc
-- *(Thêm các branch khác tùy theo nhu cầu)*
+- `quiz` - Ứng dụng làm trắc nghiệm
 
 ## Bắt Đầu
 
