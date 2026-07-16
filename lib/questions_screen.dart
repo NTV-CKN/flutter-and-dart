@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:second_app/answer_button.dart';
 import 'package:second_app/data/mock_quiz_question.dart';
 import 'package:second_app/model/quiz_question.dart';
 import 'package:second_app/start_screen.dart';
@@ -23,17 +24,33 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
   _QuestionScreenState.navigate(this.navigate);
 
+  //Tạo Text Widget
+  Text generateText(
+    String title, {
+    double? fontSize,
+    Color? color,
+    TextAlign? textAlign,
+  }) {
+    return Text(
+      title,
+      style: TextStyle(
+        fontSize: fontSize,
+        color: color,
+      ),
+      textAlign: textAlign,
+    );
+  }
+
+  //Tạo Danh sách các Widgets
   List<Widget> generateQuestions(QuizQuestion quiz, BuildContext ctx) {
     List<Widget> results = [];
 
     results.add(
-      Text(
+      generateText(
         quiz.questionText,
+        fontSize: 28,
+        color: Colors.white,
         textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 28,
-          color: Colors.white,
-        ),
       ),
     );
 
@@ -45,25 +62,13 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
     for (var element in quiz.answers) {
       results.add(
-        OutlinedButton(
-          style: OutlinedButton.styleFrom(
-            fixedSize: Size.fromWidth(
-              MediaQuery.of(ctx).size.width - 60,
-            ),
-            side: BorderSide(
-              color: Colors.white,
-              width: 2,
-              strokeAlign: 2,
-            ),
-            foregroundColor: Colors.white,
-          ),
-          onPressed: () {},
-          child: Text(
+        AnswerButton(
+          generateText(
             element,
-            style: TextStyle(
-              fontSize: 18,
-            ),
+            fontSize: 18,
           ),
+          element,
+          onButtonAnswerTapped: onButtonAnswerTapped,
         ),
       );
 
@@ -76,6 +81,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
     return results;
   }
+
+  void onButtonAnswerTapped(String answer) {}
 
   @override
   Widget build(BuildContext context) {
