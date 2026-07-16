@@ -29,7 +29,10 @@ class AnswerButton extends StatelessWidget {
       onPressed: () {
         onButtonAnswerTapped.call(answer);
       },
-      child: child,
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: child,
+      ),
     );
   }
 }

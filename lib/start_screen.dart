@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:second_app/questions_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 //Có thể dùng stateless vì chỉ có logic xử lí sự kiện nút nhấn
 // ignore: must_be_immutable
@@ -41,10 +42,9 @@ class _StartScreenState extends State<StartScreen> {
             height: 20,
           ),
 
-          const Text(
+          Text(
             'Learn Flutte the !fun way!',
-            style: TextStyle(
-              fontSize: 28,
+            style: GoogleFonts.playwriteAr(
               color: Colors.white,
             ),
           ),

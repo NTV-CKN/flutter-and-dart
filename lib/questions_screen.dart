@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:second_app/answer_button.dart';
 import 'package:second_app/data/mock_quiz_question.dart';
 import 'package:second_app/model/quiz_question.dart';
@@ -33,7 +34,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
   }) {
     return Text(
       title,
-      style: TextStyle(
+      style: GoogleFonts.geist(
         fontSize: fontSize,
         color: color,
       ),
@@ -113,20 +114,22 @@ class _QuestionScreenState extends State<QuestionScreen> {
             SizedBox(
               height: 40,
             ),
-            OutlinedButton.icon(
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.white,
-                side: BorderSide(color: Colors.white, width: 2),
-              ),
-              onPressed: () {
-                navigate.call(StartScreen(navigate));
-              },
-              icon: Icon(
-                Icons.exit_to_app,
-              ),
-              label: Text(
-                'Exit',
-                style: TextStyle(fontSize: 24),
+            Align(
+              child: OutlinedButton.icon(
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  side: BorderSide(color: Colors.white, width: 2),
+                ),
+                onPressed: () {
+                  navigate.call(StartScreen(navigate));
+                },
+                icon: Icon(
+                  Icons.exit_to_app,
+                ),
+                label: Text(
+                  'Exit',
+                  style: TextStyle(fontSize: 24),
+                ),
               ),
             ),
           ],
