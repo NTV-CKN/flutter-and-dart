@@ -60,6 +60,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
       ),
     );
 
+    quiz.answers.shuffle();
+
     for (var element in quiz.answers) {
       results.add(
         AnswerButton(
@@ -82,7 +84,14 @@ class _QuestionScreenState extends State<QuestionScreen> {
     return results;
   }
 
-  void onButtonAnswerTapped(String answer) {}
+  void onButtonAnswerTapped(String answer) {
+    setState(() {
+      if (currentPos == maxSizeQuestion - 1) {
+        return;
+      }
+      currentPos++;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

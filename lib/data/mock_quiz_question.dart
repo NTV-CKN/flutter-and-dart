@@ -1,6 +1,7 @@
 import 'package:second_app/model/quiz_question.dart';
 
-const questions = [
+//nếu để const thì shuffle lỗi do const không cho phép chỉnh sửa đối tượng list
+final questions = [
   QuizQuestion(
     'What are the main building blocks of Flutter UIs?',
     [
