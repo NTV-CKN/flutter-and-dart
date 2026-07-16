@@ -13,12 +13,18 @@ class Quiz extends StatefulWidget {
 class _QuizState extends State<Quiz> {
   final colorsGradient = [Colors.deepPurpleAccent, Colors.indigo];
 
-  late Widget showWidget = StartScreen(navigate);
+  Widget? showWidget;
 
   void navigate(Widget widget) {
     setState(() {
       showWidget = widget;
     });
+  }
+
+  @override
+  void initState() {
+    showWidget = StartScreen(navigate);
+    super.initState();
   }
 
   @override
