@@ -5,25 +5,31 @@ import 'package:second_app/data/mock_quiz_question.dart';
 import 'package:second_app/model/quiz_question.dart';
 import 'package:second_app/start_screen.dart';
 
+// ignore: must_be_immutable
 class QuestionScreen extends StatefulWidget {
   final void Function(Widget widget) navigate;
+  void Function(String answer)? onAnswerButtonClick;
 
-  const QuestionScreen.navigate(this.navigate, {super.key});
+  QuestionScreen.navigate(this.navigate, {super.key, this.onAnswerButtonClick});
+
+  void setOnAnswerButtonClick(
+    void Function(String answer) onAnswerButtonClick,
+  ) {
+    this.onAnswerButtonClick = onAnswerButtonClick;
+  }
 
   @override
   State<QuestionScreen> createState() {
-    // ignore: no_logic_in_create_state
-    return _QuestionScreenState.navigate(navigate);
+    return _QuestionScreenState.navigate();
   }
 }
 
 class _QuestionScreenState extends State<QuestionScreen> {
-  final void Function(Widget widget) navigate;
   final int maxSizeQuestion = questions.length;
 
   int currentPos = 0;
 
-  _QuestionScreenState.navigate(this.navigate);
+  _QuestionScreenState.navigate();
 
   //Tạo Text Widget
   Text generateText(
@@ -87,9 +93,17 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
   void onButtonAnswerTapped(String answer) {
     setState(() {
-      if (currentPos == maxSizeQuestion - 1) {
+      if (currentPos >= maxSizeQuestion) {
         return;
       }
+
+      if (currentPos == maxSizeQuestion - 1) {
+        widget.onAnswerButtonClick?.call(answer);
+        //Xử lí điều hướng kết quả
+        return;
+      }
+
+      widget.onAnswerButtonClick?.call(answer);
       currentPos++;
     });
   }
@@ -121,7 +135,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                   side: BorderSide(color: Colors.white, width: 2),
                 ),
                 onPressed: () {
-                  navigate.call(StartScreen(navigate));
+                  widget.navigate.call(StartScreen(widget.navigate));
                 },
                 icon: Icon(
                   Icons.exit_to_app,
