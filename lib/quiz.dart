@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:second_app/questions_screen.dart';
+import 'package:second_app/results_screen.dart';
 import 'package:second_app/start_screen.dart';
 
 class Quiz extends StatefulWidget {
@@ -23,8 +24,16 @@ class _QuizState extends State<Quiz> {
         widget.setOnAnswerButtonClick(onAnswerButtonClick);
       }
 
+      if (widget is ResultsScreen) {
+        widget.setOnResultsSceenDispose(onResultsScreenDispose);
+      }
+
       showWidget = widget;
     });
+  }
+
+  void onResultsScreenDispose() {
+    answersUserChoose.clear();
   }
 
   void onAnswerButtonClick(String answer) {

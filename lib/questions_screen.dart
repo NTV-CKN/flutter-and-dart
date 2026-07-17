@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:second_app/answer_button.dart';
 import 'package:second_app/data/mock_quiz_question.dart';
 import 'package:second_app/model/quiz_question.dart';
+import 'package:second_app/results_screen.dart';
 import 'package:second_app/start_screen.dart';
 
 // ignore: must_be_immutable
@@ -100,6 +101,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
       if (currentPos == maxSizeQuestion - 1) {
         widget.onAnswerButtonClick?.call(answer);
         //Xử lí điều hướng kết quả
+        widget.navigate.call(ResultsScreen.navigate(widget.navigate));
         return;
       }
 
