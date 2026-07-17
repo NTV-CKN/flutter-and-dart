@@ -26,6 +26,7 @@ class _QuizState extends State<Quiz> {
 
       if (widget is ResultsScreen) {
         widget.setOnResultsSceenDispose(onResultsScreenDispose);
+        widget.setAnswers(answersUserChoose);
       }
 
       showWidget = widget;
@@ -38,7 +39,6 @@ class _QuizState extends State<Quiz> {
 
   void onAnswerButtonClick(String answer) {
     answersUserChoose.add(answer);
-    print(answersUserChoose);
   }
 
   @override
