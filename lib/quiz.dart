@@ -25,8 +25,8 @@ class _QuizState extends State<Quiz> {
       }
 
       if (widget is ResultsScreen) {
-        widget.setOnResultsSceenDispose(onResultsScreenDispose);
-        widget.setAnswers(answersUserChoose);
+        widget.sOnResultsScreenDispose = onResultsScreenDispose;
+        widget.sAnswers = answersUserChoose;
       }
 
       showWidget = widget;

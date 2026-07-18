@@ -9,7 +9,11 @@ import 'package:second_app/summary_result_screen.dart';
 // ignore: must_be_immutable
 class ResultsScreen extends StatefulWidget {
   void Function()? onResultsScreenDispose;
+  set sOnResultsScreenDispose(void Function() onResultsScreenDispose) =>
+      this.onResultsScreenDispose = onResultsScreenDispose;
+
   List<String>? answers;
+  set sAnswers(List<String> answers) => this.answers = answers;
 
   final void Function(Widget widget) navigate;
 
@@ -19,14 +23,6 @@ class ResultsScreen extends StatefulWidget {
     this.answers,
     this.onResultsScreenDispose,
   });
-
-  void setOnResultsSceenDispose(void Function() onResultsScreenDispose) {
-    this.onResultsScreenDispose = onResultsScreenDispose;
-  }
-
-  void setAnswers(List<String> answers) {
-    this.answers = answers;
-  }
 
   @override
   State<StatefulWidget> createState() {
@@ -59,7 +55,6 @@ class _ResultsScreenState extends State<ResultsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final sizeWidget = MediaQuery.of(context).size.width;
     return Center(
       child: Container(
         margin: EdgeInsets.only(
