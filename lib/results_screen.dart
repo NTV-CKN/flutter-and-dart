@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:second_app/data/mock_quiz_question.dart';
 import 'package:second_app/model/summary_result_item.dart';
 import 'package:second_app/questions_screen.dart';
 import 'package:second_app/start_screen.dart';
+import 'package:second_app/summary_result_screen.dart';
 
 // ignore: must_be_immutable
 class ResultsScreen extends StatefulWidget {
@@ -34,19 +36,22 @@ class ResultsScreen extends StatefulWidget {
 
 class _ResultsScreenState extends State<ResultsScreen> {
   final List<SummaryResultItem> summaryResults = [];
+  int numCorrectAnswers = 0;
 
   @override
   void initState() {
     if (widget.answers != null && widget.answers!.length == questions.length) {
       for (int i = 0; i < questions.length; i++) {
-        summaryResults.add(
-          SummaryResultItem(
-            indexItem: i,
-            questionText: questions[i].questionText,
-            answer: questions[i].answers[0],
-            userAnswered: widget.answers![i],
-          ),
+        SummaryResultItem item = SummaryResultItem(
+          indexItem: i,
+          questionText: questions[i].questionText,
+          answer: questions[i].answers[0],
+          userAnswered: widget.answers![i],
         );
+        summaryResults.add(item);
+        if (item.checkCorrectAnswer()) {
+          numCorrectAnswers++;
+        }
       }
     }
     super.initState();
@@ -55,7 +60,6 @@ class _ResultsScreenState extends State<ResultsScreen> {
   @override
   Widget build(BuildContext context) {
     final sizeWidget = MediaQuery.of(context).size.width;
-
     return Center(
       child: Container(
         margin: EdgeInsets.only(
@@ -66,11 +70,20 @@ class _ResultsScreenState extends State<ResultsScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('Results'),
+            Text(
+              'Your answered $numCorrectAnswers out '
+              'of ${questions.length} questions correctly!',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.geist(
+                color: const Color.fromARGB(255, 173, 152, 211),
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             SizedBox(
               height: 30,
             ),
-            Text('List answers of you...'),
+            SummaryResultScreen(summaryResults),
             SizedBox(
               height: 30,
             ),
