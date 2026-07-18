@@ -33,7 +33,7 @@ class _StartScreenState extends State<StartScreen> {
 
         children: [
           Image.asset(
-            '../assets/images/quiz-logo.png',
+            'assets/images/quiz-logo.png',
             width: 200,
             color: const Color.fromARGB(217, 255, 255, 255),
           ),

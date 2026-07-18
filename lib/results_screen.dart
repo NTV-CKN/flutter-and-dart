@@ -90,51 +90,55 @@ class _ResultsScreenState extends State<ResultsScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton.icon(
-                  onPressed: () {
-                    widget.navigate.call(
-                      QuestionScreen.navigate(widget.navigate),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: Size.fromWidth(
-                      sizeWidget - (sizeWidget * 0.7),
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      widget.navigate.call(
+                        QuestionScreen.navigate(widget.navigate),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      // fixedSize: Size.fromWidth(
+                      //   sizeWidget - (sizeWidget * 0.5),
+                      // ),
+                      foregroundColor: Colors.white,
+                      backgroundColor: const Color.fromARGB(255, 42, 15, 193),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                     ),
-                    foregroundColor: Colors.white,
-                    backgroundColor: const Color.fromARGB(255, 42, 15, 193),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                    icon: Icon(
+                      Icons.restart_alt,
                     ),
+                    label: Text('Restart Quiz!'),
                   ),
-                  icon: Icon(
-                    Icons.restart_alt,
-                  ),
-                  label: Text('Restart Quiz!'),
                 ),
                 SizedBox(
                   width: 40,
                 ),
-                OutlinedButton.icon(
-                  onPressed: () {
-                    widget.navigate.call(StartScreen(widget.navigate));
-                  },
-                  style: OutlinedButton.styleFrom(
-                    fixedSize: Size.fromWidth(
-                      sizeWidget - (sizeWidget * 0.7),
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: () {
+                      widget.navigate.call(StartScreen(widget.navigate));
+                    },
+                    style: OutlinedButton.styleFrom(
+                      // fixedSize: Size.fromWidth(
+                      //   sizeWidget - (sizeWidget * 0.5),
+                      // ),
+                      foregroundColor: Colors.white,
+                      side: BorderSide(
+                        color: const Color.fromARGB(255, 42, 15, 193),
+                        width: 2,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                     ),
-                    foregroundColor: Colors.white,
-                    side: BorderSide(
-                      color: const Color.fromARGB(255, 42, 15, 193),
-                      width: 2,
+                    icon: Icon(
+                      Icons.exit_to_app,
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
+                    label: Text('Exit'),
                   ),
-                  icon: Icon(
-                    Icons.exit_to_app,
-                  ),
-                  label: Text('Exit'),
                 ),
               ],
             ),
