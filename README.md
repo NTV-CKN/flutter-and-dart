@@ -16,6 +16,7 @@ Mỗi branch trong repository được chia thành các loại ứng dụng khá
 - `main` - Branch chính (mặc định)
 - `roll_dice` - Ứng dụng tung xúc xắc
 - `quiz` - Ứng dụng làm trắc nghiệm
+- `expense_tracker` - Ứng dụng quản lí chi tiêu
 
 ## Bắt Đầu
 
