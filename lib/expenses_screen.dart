@@ -14,7 +14,13 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: Column(),
+        child: Column(
+          children: [
+            Text(
+              'Chart'
+            ),
+          ],
+        ),
       ),
     );
   }
