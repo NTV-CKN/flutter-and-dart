@@ -53,6 +53,7 @@ class _NewExpenseScreenState extends State<NewExpenseScreen> {
         children: [
           TextField(
             controller: _titleController,
+            maxLength: 50,
             decoration: InputDecoration(
               label: Text(
                 'Title',
@@ -70,6 +71,7 @@ class _NewExpenseScreenState extends State<NewExpenseScreen> {
                   controller: _amountController,
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
                   decoration: InputDecoration(
+                    suffixText: 'VNĐ',
                     label: Text('Amount'),
                   ),
                 ),
