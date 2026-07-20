@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:second_app/data/dummy_expense.dart';
 import 'package:second_app/widget/expense_list/expense_list_screen.dart';
+import 'package:second_app/widget/new_expense.dart';
 
 class ExpensesScreen extends StatefulWidget {
   const ExpensesScreen({super.key});
@@ -15,7 +16,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   void addExpense() {
     showModalBottomSheet(
       context: context,
-      builder: (ctx) => Text('Modal'),
+      builder: (ctx) => NewExpenseScreen(),
     );
   }
 

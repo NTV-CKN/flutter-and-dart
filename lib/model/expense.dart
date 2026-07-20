@@ -4,7 +4,7 @@ import 'package:uuid/uuid.dart';
 
 const uuid = Uuid();
 
-const iconByCategory = {
+const Map<Category, IconData> iconByCategory = {
   Category.learn: Icons.work,
   Category.skincare: Icons.healing_outlined,
   Category.eat: Icons.food_bank_outlined,
@@ -22,6 +22,13 @@ enum Category {
   final String description;
 
   const Category(this.description);
+
+  // static List<String> get categories => [
+  //   learn.name.toUpperCase(),
+  //   skincare.name.toUpperCase(),
+  //   maintance.name.toUpperCase(),
+  //   eat.name.toUpperCase(),
+  // ];
 }
 
 class Expense {
