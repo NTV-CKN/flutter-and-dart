@@ -12,9 +12,35 @@ class ExpensesScreen extends StatefulWidget {
 }
 
 class _ExpensesScreenState extends State<ExpensesScreen> {
+  void addExpense() {
+    showModalBottomSheet(
+      context: context,
+      builder: (ctx) => Text('Modal'),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Align(
+          alignment: Alignment.center,
+          child: Text(
+            'Expense Tracker',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        actions: [
+          IconButton(
+            onPressed: addExpense,
+            icon: Icon(
+              Icons.add,
+            ),
+          ),
+        ],
+      ),
       body: Container(
         child: Column(
           children: [

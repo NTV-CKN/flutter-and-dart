@@ -6,6 +6,7 @@ const colors = [Colors.deepPurple, Colors.indigo];
 void main() {
   runApp(
     MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: ExpensesScreen(),
     ),
   );
