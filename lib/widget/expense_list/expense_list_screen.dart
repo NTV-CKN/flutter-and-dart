@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:second_app/model/expense.dart';
+import 'package:second_app/widget/expense_list/expense_item.dart';
 
 class ExpenseListScreen extends StatelessWidget {
   final List<Expense> expenses;
@@ -9,7 +10,7 @@ class ExpenseListScreen extends StatelessWidget {
   Widget? itemBuilder(BuildContext cxt, int index) {
     if (index >= expenses.length) return null;
 
-    return Text(expenses[index].title);
+    return ExpenseItem(expenses[index]);
   }
 
   @override

@@ -5,7 +5,7 @@ final List<Expense> expenses = [
     amount: 100.000,
     title: 'Ăn mì cay',
     date: DateTime.now(),
-    category: Category.hangout,
+    category: Category.eat,
   ),
   Expense(
     title: 'Mua bút',

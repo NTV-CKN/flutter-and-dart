@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:second_app/expenses_screen.dart';
+import 'package:second_app/widget/expenses_screen.dart';
 
 const colors = [Colors.deepPurple, Colors.indigo];
 
