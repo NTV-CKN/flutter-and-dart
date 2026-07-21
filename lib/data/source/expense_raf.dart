@@ -141,7 +141,6 @@ class ExpenseRafHelper {
 
       for (var i = 0; i < size; i++) {
         int isDeleted = await raf.readByte();
-        if (isDeleted != 1) continue;
 
         String id = await raf.readUtf8();
         String title = await raf.readUtf8();
@@ -156,6 +155,8 @@ class ExpenseRafHelper {
         DateTime date = DateTime.fromMillisecondsSinceEpoch(
           ByteData.sublistView(byteDate).getInt64(0),
         );
+        
+        if (isDeleted != 1) continue;
 
         results.add(
           Expense.withId(
