@@ -18,9 +18,9 @@ extension Utf8RandomAccessFile on RandomAccessFile {
 
     final lengthBuffer = ByteData(2)..setUint16(0, bytes.length);
     //ghi length
-    writeFrom(lengthBuffer.buffer.asUint8List());
+    await writeFrom(lengthBuffer.buffer.asUint8List());
     //ghi data
-    writeFrom(bytes);
+    await writeFrom(bytes);
   }
 
   Future<String> readUtf8() async {
@@ -40,27 +40,30 @@ extension Utf8RandomAccessFile on RandomAccessFile {
 }
 
 class ExpenseRafHelper {
-  late RandomAccessFile raf;
+  static final ExpenseRafHelper _instance = ExpenseRafHelper._internal();
+  RandomAccessFile? _raf;
 
-  ExpenseRafHelper() {
-    createRaf();
-  }
+  //constructor
+  factory ExpenseRafHelper() => _instance;
+  ExpenseRafHelper._internal();
 
-  Future<void> createRaf() async {
+  Future<RandomAccessFile> _getRaf() async {
+    if (_raf != null) return _raf!;
+
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String fullPath = p.join(appDocDir.path, 'data', 'expenses.bin');
 
     File file = File(fullPath);
-    file.create(recursive: true);
+    await file.create(recursive: true);
 
-    RandomAccessFile raf = await file.open(mode: FileMode.write);
-
-    this.raf = raf;
+    _raf = await file.open(mode: FileMode.append);
+    return _raf!;
   }
 
   Future<bool> saveExpense(Expense expense) async {
     try {
       int size = 0;
+      final raf = await _getRaf();
       await raf.setPosition(0);
       int lengthFile = await raf.length();
 
@@ -83,8 +86,11 @@ class ExpenseRafHelper {
       final resizeByteData = ByteData(2)..setUint16(0, size);
       await raf.writeFrom(resizeByteData.buffer.asUint8List());
 
+      await raf.flush();
+
       return true;
     } catch (error) {
+      print('add: $error');
       return false;
     }
   }
@@ -93,6 +99,7 @@ class ExpenseRafHelper {
     final List<Expense> results = [];
 
     try {
+      final raf = await _getRaf();
       await raf.setPosition(0);
       int lengthFile = await raf.length();
 
@@ -129,7 +136,15 @@ class ExpenseRafHelper {
 
       return results;
     } catch (error) {
+      print('get: $error');
       return results;
+    }
+  }
+
+  Future<void> close() async {
+    if (_raf != null) {
+      await _raf!.close();
+      _raf = null;
     }
   }
 }

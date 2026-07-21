@@ -16,20 +16,28 @@ class ExpensesScreen extends StatefulWidget {
 class _ExpensesScreenState extends State<ExpensesScreen> {
   List<Expense> expenses = [];
 
-  void addExpense() {
+  void showAddExpense() {
     showModalBottomSheet(
       context: context,
-      builder: (ctx) => NewExpenseScreen(),
+      builder: (ctx) => NewExpenseScreen(addNewExpense),
     );
   }
 
   Future<void> reloadExpenses() async {
     expenses = await expenseRafhelper.getExpenses();
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
+  Future<void> addNewExpense(Expense expense) async {
+    await expenseRafhelper.saveExpense(expense);
+    await reloadExpenses();
+  }
+
+  @override
+  void initState() {
+    reloadExpenses();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +54,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: addExpense,
+            onPressed: showAddExpense,
             icon: Icon(
               Icons.add,
             ),
@@ -64,5 +72,10 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

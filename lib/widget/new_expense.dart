@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:second_app/model/expense.dart';
 
 class NewExpenseScreen extends StatefulWidget {
-  const NewExpenseScreen({super.key});
+  final Future<void> Function(Expense expense) addNewExpense;
+
+  const NewExpenseScreen(this.addNewExpense, {super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -42,6 +44,36 @@ class _NewExpenseScreenState extends State<NewExpenseScreen> {
             Icons.date_range,
           ),
         ],
+      ),
+    );
+  }
+
+  Future<void> addNewExpense() async {
+    final String title = _titleController.text;
+    final double? amount = double.tryParse(_amountController.text);
+
+    if (title.isEmpty || amount == null || _date == null) {
+      showDialog(
+        context: context,
+        builder: ((context) => AlertDialog(
+          title: Text(
+            'Invalid Input!',
+          ),
+          content: Text('Title, amount, and date are required.'),
+        )),
+      );
+
+      return;
+    }
+
+    Navigator.pop(context);
+
+    await widget.addNewExpense.call(
+      Expense(
+        title: title,
+        amount: amount,
+        date: _date!,
+        category: category,
       ),
     );
   }
@@ -86,53 +118,56 @@ class _NewExpenseScreenState extends State<NewExpenseScreen> {
           ),
           Row(
             children: [
-              DropdownButton<Category>(
-                value: category,
-                items: [
-                  for (MapEntry<Category, IconData> entry
-                      in iconByCategory.entries)
-                    DropdownMenuItem<Category>(
-                      value: entry.key,
-                      child: Tooltip(
-                        message: entry.key.description,
-                        child: Row(
-                          spacing: 10,
-                          children: [
-                            Icon(entry.value),
-                            Text(
-                              entry.key.name.toUpperCase(),
-                            ),
-                          ],
+              Expanded(
+                child: DropdownButton<Category>(
+                  value: category,
+                  items: [
+                    for (MapEntry<Category, IconData> entry
+                        in iconByCategory.entries)
+                      DropdownMenuItem<Category>(
+                        value: entry.key,
+                        child: Tooltip(
+                          message: entry.key.description,
+                          child: Row(
+                            spacing: 10,
+                            children: [
+                              Icon(entry.value),
+                              Text(
+                                entry.key.name.toUpperCase(),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                ],
-                onChanged: (item) {
-                  if (item != null) {
-                    setState(() {
-                      category = item;
-                    });
-                  }
-                },
+                  ],
+                  onChanged: (item) {
+                    if (item != null) {
+                      setState(() {
+                        category = item;
+                      });
+                    }
+                  },
+                ),
               ),
-              Spacer(),
-              Row(
-                children: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text('Cancel'),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 230, 206, 255),
+              Expanded(
+                child: Row(
+                  children: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text('Cancel'),
                     ),
-                    onPressed: () {},
-                    child: Text('Save Expense'),
-                  ),
-                ],
+                    SizedBox(
+                      width: 10,
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(255, 230, 206, 255),
+                      ),
+                      onPressed: addNewExpense,
+                      child: Text('Save'),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
