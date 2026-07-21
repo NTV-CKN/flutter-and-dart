@@ -1,16 +1,16 @@
-import 'package:second_app/model/expense.dart';
+// import 'package:second_app/model/expense.dart';
 
-final List<Expense> expenses = [
-  Expense(
-    amount: 100.000,
-    title: 'Ăn mì cay',
-    date: DateTime.now(),
-    category: Category.eat,
-  ),
-  Expense(
-    title: 'Mua bút',
-    amount: 20.000,
-    date: DateTime.now(),
-    category: Category.learn,
-  ),
-];
+// final List<Expense> expenses = [
+//   Expense(
+//     amount: 100.000,
+//     title: 'Ăn mì cay',
+//     date: DateTime.now(),
+//     category: Category.eat,
+//   ),
+//   Expense(
+//     title: 'Mua bút',
+//     amount: 20.000,
+//     date: DateTime.now(),
+//     category: Category.learn,
+//   ),
+// ];
