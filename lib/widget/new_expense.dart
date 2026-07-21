@@ -24,6 +24,7 @@ class _NewExpenseScreenState extends State<NewExpenseScreen> {
       lastDate: DateTime(2070),
       initialDate: DateTime.now(),
     );
+    setState(() {});
   }
 
   Widget _buildDateSelected() {
@@ -92,14 +93,17 @@ class _NewExpenseScreenState extends State<NewExpenseScreen> {
                       in iconByCategory.entries)
                     DropdownMenuItem<Category>(
                       value: entry.key,
-                      child: Row(
-                        spacing: 10,
-                        children: [
-                          Icon(entry.value),
-                          Text(
-                            entry.key.name.toUpperCase(),
-                          ),
-                        ],
+                      child: Tooltip(
+                        message: entry.key.description,
+                        child: Row(
+                          spacing: 10,
+                          children: [
+                            Icon(entry.value),
+                            Text(
+                              entry.key.name.toUpperCase(),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                 ],
