@@ -4,8 +4,9 @@ import 'package:second_app/model/expense.dart';
 // ignore: must_be_immutable
 class ExpenseItem extends StatelessWidget {
   Expense expense;
+  final Future<void> Function(Expense expense) removeExpense;
 
-  ExpenseItem(this.expense, {super.key});
+  ExpenseItem(this.expense, {super.key, required this.removeExpense});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,53 @@ class ExpenseItem extends StatelessWidget {
       child: Card(
         child: Column(
           children: [
-            Text(expense.title),
+            Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsetsGeometry.only(
+                      left: 10,
+                      top: 10,
+                    ),
+                    child: Text(
+                      maxLines: 3,
+                      expense.title,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                IconButton(
+                  style: IconButton.styleFrom(
+                    foregroundColor: Colors.red,
+                  ),
+                  onPressed: () {
+                    final scaffold = ScaffoldMessenger.of(context);
+                    scaffold.clearSnackBars();
+                    scaffold.showSnackBar(
+                      SnackBar(
+                        duration: Duration(seconds: 3),
+                        content: Text('Do you want delete this expense?'),
+                        action: SnackBarAction(
+                          label: 'Ok',
+                          onPressed: () {
+                            removeExpense.call(expense);
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                  icon: Icon(
+                    Icons.remove_circle,
+                  ),
+                ),
+              ],
+            ),
             SizedBox(
               height: 10,
             ),

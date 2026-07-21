@@ -95,6 +95,37 @@ class ExpenseRafHelper {
     }
   }
 
+  Future<bool> removeExpense(Expense expense) async {
+    try {
+      final raf = await _getRaf();
+      await raf.setPosition(0);
+      int lengthFile = await raf.length();
+
+      if (lengthFile < 2) return false;
+
+      final sizeByteDate = await raf.read(2);
+      int size = ByteData.sublistView(sizeByteDate).getUint16(0);
+
+      for (var i = 0; i < size; i++) {
+        int currentPos = await raf.position();
+        int isDeleted = await raf.readByte();
+        String id = await raf.readUtf8();
+
+        if (id == expense.id) {
+          if (isDeleted != 1) return false;
+
+          await raf.setPosition(currentPos);
+          await raf.writeByte(0);
+          return true;
+        }
+      }
+
+      return false;
+    } catch (error) {
+      return false;
+    }
+  }
+
   Future<List<Expense>> getExpenses() async {
     final List<Expense> results = [];
 
@@ -109,6 +140,9 @@ class ExpenseRafHelper {
       int size = ByteData.sublistView(byteDataSize).getUint16(0);
 
       for (var i = 0; i < size; i++) {
+        int isDeleted = await raf.readByte();
+        if (isDeleted != 1) continue;
+
         String id = await raf.readUtf8();
         String title = await raf.readUtf8();
 

@@ -62,6 +62,7 @@ class Expense {
   IconData? get iconDataByCategory => iconByCategory[category];
 
   Future<void> saveExpense(RandomAccessFile raf) async {
+    await raf.writeByte(1);
     await raf.writeUtf8(id);
     await raf.writeUtf8(title);
 

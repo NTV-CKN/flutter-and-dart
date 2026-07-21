@@ -19,23 +19,28 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   void showAddExpense() {
     showModalBottomSheet(
       context: context,
-      builder: (ctx) => NewExpenseScreen(addNewExpense),
+      builder: (ctx) => NewExpenseScreen(_addNewExpense),
     );
   }
 
-  Future<void> reloadExpenses() async {
+  Future<void> _reloadExpenses() async {
     expenses = await expenseRafhelper.getExpenses();
     setState(() {});
   }
 
-  Future<void> addNewExpense(Expense expense) async {
+  Future<void> _addNewExpense(Expense expense) async {
     await expenseRafhelper.saveExpense(expense);
-    await reloadExpenses();
+    await _reloadExpenses();
+  }
+
+  Future<void> _removeExpense(Expense expense) async {
+    await expenseRafhelper.removeExpense(expense);
+    await _reloadExpenses();
   }
 
   @override
   void initState() {
-    reloadExpenses();
+    _reloadExpenses();
     super.initState();
   }
 
@@ -63,10 +68,22 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
       ),
       body: Container(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text('Chart'),
+            const Align(
+              alignment: Alignment.center,
+              child: Text('Chart'),
+            ),
             Expanded(
-              child: ExpenseListScreen(expenses),
+              child: expenses.isEmpty
+                  ? Icon(
+                      Icons.folder_off_rounded,
+                      size: 100,
+                    )
+                  : ExpenseListScreen(
+                      expenses,
+                      removeExpense: _removeExpense,
+                    ),
             ),
           ],
         ),
