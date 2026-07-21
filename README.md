@@ -14,9 +14,9 @@ Repository học tập và thực hành **tạo ứng dụng Flutter cơ bản**
 Mỗi branch trong repository được chia thành các loại ứng dụng khác nhau:
 
 - `main` - Branch chính (mặc định)
-- `roll_dice` - Ứng dụng tung xúc xắc
-- `quiz` - Ứng dụng làm trắc nghiệm
-- `expense_tracker` - Ứng dụng quản lí chi tiêu
+- `roll_dice` - Ứng dụng tung xúc xắc (Tìm hiểu về Stateful/Stateless)
+- `quiz` - Ứng dụng làm trắc nghiệm (Tìm hiểu về điều hướng thủ công, lifting up state)
+- `expense_tracker` - Ứng dụng quản lí chi tiêu (CRUD với RandomAccessFile/ByteData, Chart, theme)
 
 ## Bắt Đầu
 
