@@ -22,31 +22,64 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
       (sum, bucket) => sum + bucket.total,
     );
 
-    return Container(
-      height: 250,
-      padding: const EdgeInsets.all(16),
+    return SizedBox(
+      height: 345,
+      width: 350,
+      // padding: const EdgeInsets.all(16),
       child: totalAllExpenses == 0
           ? const Center(child: Text('Chưa có dữ liệu chi tiêu'))
-          : PieChart(
-              PieChartData(
-                pieTouchData: PieTouchData(
-                  touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                    setState(() {
-                      if (!event.isInterestedForInteractions ||
-                          pieTouchResponse == null ||
-                          pieTouchResponse.touchedSection == null) {
-                        touchedIndex = -1;
-                        return;
-                      }
-                      touchedIndex =
-                          pieTouchResponse.touchedSection!.touchedSectionIndex;
-                    });
-                  },
-                ),
-                borderData: FlBorderData(show: false),
-                sectionsSpace: 2,
-                centerSpaceRadius: 40,
-                sections: _buildChartSections(totalAllExpenses),
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 250,
+                    child: PieChart(
+                      PieChartData(
+                        pieTouchData: PieTouchData(
+                          touchCallback:
+                              (FlTouchEvent event, pieTouchResponse) {
+                                setState(() {
+                                  if (!event.isInterestedForInteractions ||
+                                      pieTouchResponse == null ||
+                                      pieTouchResponse.touchedSection == null) {
+                                    touchedIndex = -1;
+                                    return;
+                                  }
+                                  touchedIndex = pieTouchResponse
+                                      .touchedSection!
+                                      .touchedSectionIndex;
+                                });
+                              },
+                        ),
+                        borderData: FlBorderData(show: false),
+                        sectionsSpace: 2,
+                        centerSpaceRadius: 40,
+                        sections: _buildChartSections(totalAllExpenses),
+                      ),
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Total all expenses: ${totalAllExpenses.toStringAsFixed(3)} VNĐ',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      for (BucketExpense item in widget.buckets)
+                        Text(
+                          'Total by ${item.category.name}: ${item.total.toStringAsFixed(3)} VNĐ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: _getCategoryColor(item.category),
+                            fontSize: 13,
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
               ),
             ),
     );
