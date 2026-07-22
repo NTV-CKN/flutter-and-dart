@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:second_app/data/source/expense_raf.dart';
+import 'package:second_app/model/bucket_expense.dart';
 import 'package:second_app/model/expense.dart';
+import 'package:second_app/widget/chart/expense_pie_chart.dart';
 import 'package:second_app/widget/expense_list/expense_list_screen.dart';
 import 'package:second_app/widget/add_or_update_expense.dart';
 
@@ -15,6 +17,7 @@ class ExpensesScreen extends StatefulWidget {
 
 class _ExpensesScreenState extends State<ExpensesScreen> {
   List<Expense> expenses = [];
+  List<BucketExpense> bucketExpenses = [];
 
   void showAddExpense() {
     showModalBottomSheet(
@@ -37,7 +40,15 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
   Future<void> _reloadExpenses() async {
     expenses = await expenseRafhelper.getExpenses();
-    setState(() {});
+    bucketExpenses.clear();
+
+    setState(() {
+      for (var item in Category.values) {
+        bucketExpenses.add(
+          BucketExpense(expenses, item)
+        );
+      }
+    });
   }
 
   Future<void> _addNewExpense(Expense expense) async {
@@ -87,9 +98,16 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Align(
+            Align(
               alignment: Alignment.center,
-              child: Text('Chart'),
+              child: bucketExpenses.isEmpty 
+              ? Text('Chart',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onPrimary,
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+              ),)
+              : ExpensePieChart(buckets: bucketExpenses),
             ),
             Expanded(
               child: expenses.isEmpty
