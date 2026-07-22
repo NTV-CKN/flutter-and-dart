@@ -23,7 +23,7 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
     );
 
     return SizedBox(
-      height: 345,
+      height: 350,
       width: 350,
       // padding: const EdgeInsets.all(16),
       child: totalAllExpenses == 0

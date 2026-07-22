@@ -44,9 +44,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
     setState(() {
       for (var item in Category.values) {
-        bucketExpenses.add(
-          BucketExpense(expenses, item)
-        );
+        bucketExpenses.add(BucketExpense(expenses, item));
       }
     });
   }
@@ -64,6 +62,25 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   Future<void> _removeExpense(Expense expense) async {
     await expenseRafhelper.removeExpense(expense);
     await _reloadExpenses();
+  }
+
+  Future<void> _onClear() async {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(seconds: 3),
+        content: Text('Do you want clear all data?'),
+        action: SnackBarAction(
+          label: 'Ok',
+          onPressed: () async {
+            await expenseRafhelper.clear();
+            if (!mounted) return;
+
+            await _reloadExpenses();
+          },
+        ),
+      ),
+    );
   }
 
   @override
@@ -92,6 +109,12 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
               Icons.add,
             ),
           ),
+          IconButton(
+            onPressed: _onClear,
+            icon: Icon(
+              Icons.cleaning_services_sharp,
+            ),
+          ),
         ],
       ),
       body: Container(
@@ -100,14 +123,16 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
           children: [
             Align(
               alignment: Alignment.center,
-              child: bucketExpenses.isEmpty 
-              ? Text('Chart',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onPrimary,
-                fontWeight: FontWeight.bold,
-                fontSize: 24,
-              ),)
-              : ExpensePieChart(buckets: bucketExpenses),
+              child: bucketExpenses.isEmpty
+                  ? Text(
+                      'Chart',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                      ),
+                    )
+                  : ExpensePieChart(buckets: bucketExpenses),
             ),
             Expanded(
               child: expenses.isEmpty

@@ -95,6 +95,15 @@ class ExpenseRafHelper {
     }
   }
 
+  Future<void> clear() async {
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String fullPath = p.join(appDocDir.path, 'data', 'expenses.bin');
+
+    File file = File(fullPath);
+    await close();
+    await file.delete();
+  }
+
   Future<bool> removeExpense(Expense expense) async {
     try {
       final raf = await _getRaf();
