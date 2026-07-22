@@ -16,7 +16,7 @@ Mỗi branch trong repository được chia thành các loại ứng dụng khá
 - `main` - Branch chính (mặc định)
 - `roll_dice` - Ứng dụng tung xúc xắc (Tìm hiểu về Stateful/Stateless)
 - `quiz` - Ứng dụng làm trắc nghiệm (Tìm hiểu về điều hướng thủ công, lifting up state)
-- `expense_tracker` - Ứng dụng quản lí chi tiêu (CRUD với RandomAccessFile/ByteData, Chart, theme)
+- `expense_tracker` - Ứng dụng quản lí chi tiêu (CRUD với RandomAccessFile/ByteData, Chart, Theme, Responsiveness)
 
 ## Bắt Đầu
 
