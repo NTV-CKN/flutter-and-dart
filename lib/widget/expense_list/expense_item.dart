@@ -21,7 +21,6 @@ class ExpenseItem extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsetsGeometry.only(
                       left: 10,
-                      top: 10,
                     ),
                     child: Text(
                       maxLines: 3,
@@ -32,9 +31,6 @@ class ExpenseItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  width: 10,
                 ),
                 IconButton(
                   style: IconButton.styleFrom(
@@ -62,11 +58,11 @@ class ExpenseItem extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
-              height: 10,
-            ),
             Padding(
-              padding: EdgeInsetsGeometry.all(10),
+              padding: EdgeInsetsGeometry.symmetric(
+                horizontal: 10,
+                vertical: 3,
+              ),
               child: Row(
                 children: [
                   Text('${expense.amount.toStringAsFixed(3)} VNĐ'),

@@ -160,9 +160,6 @@ class _NewExpenseScreenState extends State<NewExpenseScreen> {
                       width: 10,
                     ),
                     ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 230, 206, 255),
-                      ),
                       onPressed: addNewExpense,
                       child: Text('Save'),
                     ),

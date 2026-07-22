@@ -19,6 +19,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   void showAddExpense() {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       builder: (ctx) => NewExpenseScreen(_addNewExpense),
     );
   }
@@ -49,7 +50,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Align(
-          alignment: Alignment.center,
+          alignment: Alignment.centerLeft,
           child: Text(
             'Expense Tracker',
             style: TextStyle(
