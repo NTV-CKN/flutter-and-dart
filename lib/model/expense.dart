@@ -26,23 +26,22 @@ enum Category {
   final String description;
 
   const Category(this.description);
-
-  // static List<String> get categories => [
-  //   learn.name.toUpperCase(),
-  //   skincare.name.toUpperCase(),
-  //   maintance.name.toUpperCase(),
-  //   eat.name.toUpperCase(),
-  // ];
 }
 
 class Expense {
   final String id;
   String title;
+  set sTitle(String title) => this.title = title;
+
   double amount;
+  set sAmount(double amount) => this.amount = amount;
+
   DateTime date;
   String get dateFormat => dateFormatter.format(date);
+  set sDate(DateTime date) => this.date = date;
 
   Category category;
+  set sCategory(Category category) => this.category = category;
 
   Expense({
     required this.title,

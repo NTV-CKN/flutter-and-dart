@@ -110,6 +110,10 @@ class ExpenseRafHelper {
         int currentPos = await raf.position();
         int isDeleted = await raf.readByte();
         String id = await raf.readUtf8();
+        await raf.readUtf8();
+        await raf.read(8);
+        await raf.readByte();
+        await raf.read(8);
 
         if (id == expense.id) {
           if (isDeleted != 1) return false;
@@ -122,6 +126,55 @@ class ExpenseRafHelper {
 
       return false;
     } catch (error) {
+      return false;
+    }
+  }
+
+  Future<bool> updateExpense(Expense expense) async {
+    try {
+      final raf = await _getRaf();
+      await raf.setPosition(0);
+      int lengthFile = await raf.length();
+
+      if (lengthFile < 2) return false;
+
+      final sizeByteDate = await raf.read(2);
+      int size = ByteData.sublistView(sizeByteDate).getUint16(0);
+
+      for (var i = 0; i < size; i++) {
+        int isDeleted = await raf.readByte();
+        String id = await raf.readUtf8();
+
+        int currentPos = await raf.position();
+
+        await raf.readUtf8();
+        await raf.read(8);
+        await raf.readByte();
+        await raf.read(8);
+
+        if (id == expense.id) {
+          if (isDeleted != 1) return false;
+
+          await raf.setPosition(currentPos);
+          await raf.writeUtf8(expense.title);
+
+          final amountByteData = ByteData(8)..setFloat64(0, expense.amount);
+          await raf.writeFrom(amountByteData.buffer.asUint8List());
+
+          await raf.writeByte(expense.category.index);
+
+          final dateByteData = ByteData(8)
+            ..setInt64(0, expense.date.millisecondsSinceEpoch);
+          await raf.writeFrom(dateByteData.buffer.asUint8List());
+
+          await raf.flush();
+          return true;
+        }
+      }
+
+      return false;
+    } catch (error) {
+      print('update: $error');
       return false;
     }
   }
@@ -155,7 +208,7 @@ class ExpenseRafHelper {
         DateTime date = DateTime.fromMillisecondsSinceEpoch(
           ByteData.sublistView(byteDate).getInt64(0),
         );
-        
+
         if (isDeleted != 1) continue;
 
         results.add(

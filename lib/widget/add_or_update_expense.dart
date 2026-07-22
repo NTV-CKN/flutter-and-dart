@@ -2,9 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:second_app/model/expense.dart';
 
 class NewExpenseScreen extends StatefulWidget {
-  final Future<void> Function(Expense expense) addNewExpense;
+  final bool isUpdate;
+  final Expense? expense;
 
-  const NewExpenseScreen(this.addNewExpense, {super.key});
+  final Future<void> Function(Expense expense) actionSave;
+
+  const NewExpenseScreen.add(
+    this.actionSave, {
+    super.key,
+  }) : isUpdate = false,
+       expense = null;
+
+  const NewExpenseScreen.update(
+    this.actionSave, {
+    super.key,
+    required this.expense,
+  }) : isUpdate = true;
 
   @override
   State<StatefulWidget> createState() {
@@ -48,7 +61,7 @@ class _NewExpenseScreenState extends State<NewExpenseScreen> {
     );
   }
 
-  Future<void> addNewExpense() async {
+  Future<void> actionSave() async {
     final String title = _titleController.text;
     final double? amount = double.tryParse(_amountController.text);
 
@@ -66,20 +79,40 @@ class _NewExpenseScreenState extends State<NewExpenseScreen> {
       return;
     }
 
-    Navigator.pop(context);
+    Expense expense;
 
-    await widget.addNewExpense.call(
-      Expense(
+    if (widget.isUpdate) {
+      widget.expense!.sAmount = amount;
+      widget.expense!.sCategory = category;
+      widget.expense!.sDate = _date!;
+      widget.expense!.sTitle = title;
+
+      expense = widget.expense!;
+    } else {
+      expense = Expense(
         title: title,
         amount: amount,
         date: _date!,
         category: category,
-      ),
-    );
+      );
+    }
+
+    Navigator.pop(context);
+
+    await widget.actionSave.call(expense);
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.isUpdate && widget.expense != null) {
+      final expense = widget.expense!;
+
+      _titleController.text = expense.title;
+      _amountController.text = expense.amount.toStringAsFixed(3);
+      _date = expense.date;
+      category = expense.category;
+    }
+
     return Padding(
       padding: EdgeInsetsGeometry.all(20),
       child: Column(
@@ -160,7 +193,7 @@ class _NewExpenseScreenState extends State<NewExpenseScreen> {
                       width: 10,
                     ),
                     ElevatedButton(
-                      onPressed: addNewExpense,
+                      onPressed: actionSave,
                       child: Text('Save'),
                     ),
                   ],

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:second_app/data/source/expense_raf.dart';
 import 'package:second_app/model/expense.dart';
 import 'package:second_app/widget/expense_list/expense_list_screen.dart';
-import 'package:second_app/widget/new_expense.dart';
+import 'package:second_app/widget/add_or_update_expense.dart';
 
 class ExpensesScreen extends StatefulWidget {
   const ExpensesScreen({super.key});
@@ -20,7 +20,18 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (ctx) => NewExpenseScreen(_addNewExpense),
+      builder: (ctx) => NewExpenseScreen.add(_addNewExpense),
+    );
+  }
+
+  void showUpdateExpense(Expense expense) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (ctx) => NewExpenseScreen.update(
+        _updateExpense,
+        expense: expense,
+      ),
     );
   }
 
@@ -31,6 +42,11 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
   Future<void> _addNewExpense(Expense expense) async {
     await expenseRafhelper.saveExpense(expense);
+    await _reloadExpenses();
+  }
+
+  Future<void> _updateExpense(Expense expense) async {
+    await expenseRafhelper.updateExpense(expense);
     await _reloadExpenses();
   }
 
@@ -84,6 +100,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                   : ExpenseListScreen(
                       expenses,
                       removeExpense: _removeExpense,
+                      showUpdateModal: showUpdateExpense,
                     ),
             ),
           ],
