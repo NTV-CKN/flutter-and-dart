@@ -103,7 +103,7 @@ class _NewExpenseScreenState extends State<NewExpenseScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     if (widget.isUpdate && widget.expense != null) {
       final expense = widget.expense!;
 
@@ -113,6 +113,11 @@ class _NewExpenseScreenState extends State<NewExpenseScreen> {
       category = expense.category;
     }
 
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsetsGeometry.all(20),
       child: Column(
