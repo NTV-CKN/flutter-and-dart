@@ -7,13 +7,13 @@ class NewExpenseScreen extends StatefulWidget {
 
   final Future<void> Function(Expense expense) actionSave;
 
-  const NewExpenseScreen.add(
+  const NewExpenseScreen.addWgt600(
     this.actionSave, {
     super.key,
   }) : isUpdate = false,
        expense = null;
 
-  const NewExpenseScreen.update(
+  const NewExpenseScreen.updateWgt600(
     this.actionSave, {
     super.key,
     required this.expense,
@@ -132,22 +132,24 @@ class _NewExpenseScreenState extends State<NewExpenseScreen> {
           ),
           child: Column(
             children: [
-              TextField(
-                controller: _titleController,
-                maxLength: 50,
-                decoration: InputDecoration(
-                  label: Text(
-                    'Title',
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
               Row(
                 children: [
                   Expanded(
                     flex: 2,
+                    child: TextField(
+                      controller: _titleController,
+                      maxLength: 50,
+                      decoration: InputDecoration(
+                        label: Text(
+                          'Title',
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
                     child: TextField(
                       controller: _amountController,
                       keyboardType: TextInputType.numberWithOptions(
@@ -159,8 +161,6 @@ class _NewExpenseScreenState extends State<NewExpenseScreen> {
                       ),
                     ),
                   ),
-                  Spacer(),
-                  _buildDateSelected(),
                 ],
               ),
               SizedBox(
@@ -168,40 +168,43 @@ class _NewExpenseScreenState extends State<NewExpenseScreen> {
               ),
               Row(
                 children: [
-                  Expanded(
-                    child: DropdownButton<Category>(
-                      value: category,
-                      items: [
-                        for (MapEntry<Category, IconData> entry
-                            in iconByCategory.entries)
-                          DropdownMenuItem<Category>(
-                            value: entry.key,
-                            child: Tooltip(
-                              message: entry.key.description,
-                              child: Row(
-                                spacing: 10,
-                                children: [
-                                  Icon(entry.value),
-                                  Text(
-                                    entry.key.name.toUpperCase(),
-                                  ),
-                                ],
-                              ),
+                  DropdownButton<Category>(
+                    value: category,
+                    items: [
+                      for (MapEntry<Category, IconData> entry
+                          in iconByCategory.entries)
+                        DropdownMenuItem<Category>(
+                          value: entry.key,
+                          child: Tooltip(
+                            message: entry.key.description,
+                            child: Row(
+                              spacing: 10,
+                              children: [
+                                Icon(entry.value),
+                                Text(
+                                  entry.key.name.toUpperCase(),
+                                ),
+                              ],
                             ),
                           ),
-                      ],
-                      onChanged: (item) {
-                        if (item != null) {
-                          setState(() {
-                            category = item;
-                          });
-                        }
-                      },
-                    ),
+                        ),
+                    ],
+                    onChanged: (item) {
+                      if (item != null) {
+                        setState(() {
+                          category = item;
+                        });
+                      }
+                    },
                   ),
                   Expanded(
                     child: Row(
                       children: [
+                        Spacer(),
+                        _buildDateSelected(),
+                        SizedBox(
+                          width: 10,
+                        ),
                         TextButton(
                           onPressed: () => Navigator.pop(context),
                           child: Text('Cancel'),

@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:second_app/data/source/expense_raf.dart';
 import 'package:second_app/model/bucket_expense.dart';
 import 'package:second_app/model/expense.dart';
+import 'package:second_app/widget/add_or_update_expense/add_or_update_expense_wgt600.dart'
+    as aoue_wgt600;
+import 'package:second_app/widget/add_or_update_expense/add_or_update_expense_wlt600.dart'
+    as aoue_wlt600;
 import 'package:second_app/widget/chart/expense_pie_chart.dart';
 import 'package:second_app/widget/expense_list/expense_list_screen.dart';
-import 'package:second_app/widget/add_or_update_expense.dart';
 
 class ExpensesScreen extends StatefulWidget {
   const ExpensesScreen({super.key});
@@ -26,7 +29,19 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
       constraints: BoxConstraints(
         minWidth: double.infinity,
       ),
-      builder: (ctx) => NewExpenseScreen.add(_addNewExpense),
+      builder: (ctx) => LayoutBuilder(
+        builder: (ctx, boxConstrains) {
+          if (boxConstrains.maxWidth >= 600) {
+            return aoue_wgt600.NewExpenseScreen.addWgt600(
+              _addNewExpense,
+            );
+          } else {
+            return aoue_wlt600.NewExpenseScreen.addWlt600(
+              _addNewExpense,
+            );
+          }
+        },
+      ),
     );
   }
 
@@ -37,9 +52,20 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
       constraints: BoxConstraints(
         minWidth: double.infinity,
       ),
-      builder: (ctx) => NewExpenseScreen.update(
-        _updateExpense,
-        expense: expense,
+      builder: (ctx) => LayoutBuilder(
+        builder: (ctx, boxConstrains) {
+          if (boxConstrains.maxWidth >= 600) {
+            return aoue_wgt600.NewExpenseScreen.updateWgt600(
+              _updateExpense,
+              expense: expense,
+            );
+          } else {
+            return aoue_wlt600.NewExpenseScreen.updateWlt600(
+              _updateExpense,
+              expense: expense,
+            );
+          }
+        },
       ),
     );
   }
