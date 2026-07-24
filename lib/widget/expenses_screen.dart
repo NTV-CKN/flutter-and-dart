@@ -23,6 +23,9 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      constraints: BoxConstraints(
+        minWidth: double.infinity,
+      ),
       builder: (ctx) => NewExpenseScreen.add(_addNewExpense),
     );
   }
@@ -31,6 +34,9 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      constraints: BoxConstraints(
+        minWidth: double.infinity,
+      ),
       builder: (ctx) => NewExpenseScreen.update(
         _updateExpense,
         expense: expense,

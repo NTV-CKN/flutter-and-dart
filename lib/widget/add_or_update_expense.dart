@@ -118,95 +118,109 @@ class _NewExpenseScreenState extends State<NewExpenseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsetsGeometry.all(20),
-      child: Column(
-        children: [
-          TextField(
-            controller: _titleController,
-            maxLength: 50,
-            decoration: InputDecoration(
-              label: Text(
-                'Title',
-              ),
-            ),
+    final softKeyboardInsetBottom = MediaQuery.of(context).viewInsets.bottom;
+
+    return SizedBox(
+      height: double.infinity,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsetsGeometry.fromLTRB(
+            20,
+            20,
+            20,
+            20 + softKeyboardInsetBottom,
           ),
-          SizedBox(
-            height: 15,
-          ),
-          Row(
+          child: Column(
             children: [
-              Expanded(
-                flex: 2,
-                child: TextField(
-                  controller: _amountController,
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                  decoration: InputDecoration(
-                    suffixText: 'VNĐ',
-                    label: Text('Amount'),
+              TextField(
+                controller: _titleController,
+                maxLength: 50,
+                decoration: InputDecoration(
+                  label: Text(
+                    'Title',
                   ),
                 ),
               ),
-              Spacer(),
-              _buildDateSelected(),
-            ],
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: DropdownButton<Category>(
-                  value: category,
-                  items: [
-                    for (MapEntry<Category, IconData> entry
-                        in iconByCategory.entries)
-                      DropdownMenuItem<Category>(
-                        value: entry.key,
-                        child: Tooltip(
-                          message: entry.key.description,
-                          child: Row(
-                            spacing: 10,
-                            children: [
-                              Icon(entry.value),
-                              Text(
-                                entry.key.name.toUpperCase(),
-                              ),
-                            ],
-                          ),
-                        ),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: TextField(
+                      controller: _amountController,
+                      keyboardType: TextInputType.numberWithOptions(
+                        decimal: true,
                       ),
-                  ],
-                  onChanged: (item) {
-                    if (item != null) {
-                      setState(() {
-                        category = item;
-                      });
-                    }
-                  },
-                ),
+                      decoration: InputDecoration(
+                        suffixText: 'VNĐ',
+                        label: Text('Amount'),
+                      ),
+                    ),
+                  ),
+                  Spacer(),
+                  _buildDateSelected(),
+                ],
               ),
-              Expanded(
-                child: Row(
-                  children: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: Text('Cancel'),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: DropdownButton<Category>(
+                      value: category,
+                      items: [
+                        for (MapEntry<Category, IconData> entry
+                            in iconByCategory.entries)
+                          DropdownMenuItem<Category>(
+                            value: entry.key,
+                            child: Tooltip(
+                              message: entry.key.description,
+                              child: Row(
+                                spacing: 10,
+                                children: [
+                                  Icon(entry.value),
+                                  Text(
+                                    entry.key.name.toUpperCase(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                      ],
+                      onChanged: (item) {
+                        if (item != null) {
+                          setState(() {
+                            category = item;
+                          });
+                        }
+                      },
                     ),
-                    SizedBox(
-                      width: 10,
+                  ),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text('Cancel'),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        ElevatedButton(
+                          onPressed: actionSave,
+                          child: Text('Save'),
+                        ),
+                      ],
                     ),
-                    ElevatedButton(
-                      onPressed: actionSave,
-                      child: Text('Save'),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
