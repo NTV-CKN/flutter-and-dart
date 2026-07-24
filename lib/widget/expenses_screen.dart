@@ -91,6 +91,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final widthSpace = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         title: Align(
@@ -118,36 +120,67 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
         ],
       ),
       body: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: bucketExpenses.isEmpty
-                  ? Text(
-                      'Chart',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onPrimary,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                      ),
-                    )
-                  : ExpensePieChart(buckets: bucketExpenses),
-            ),
-            Expanded(
-              child: expenses.isEmpty
-                  ? Icon(
-                      Icons.folder_off_rounded,
-                      size: 100,
-                    )
-                  : ExpenseListScreen(
-                      expenses,
-                      removeExpense: _removeExpense,
-                      showUpdateModal: showUpdateExpense,
-                    ),
-            ),
-          ],
-        ),
+        child: widthSpace > 600
+            ? Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: bucketExpenses.isEmpty
+                        ? Text(
+                            'Chart',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
+                            ),
+                          )
+                        : ExpensePieChart(buckets: bucketExpenses),
+                  ),
+                  Expanded(
+                    child: expenses.isEmpty
+                        ? Icon(
+                            Icons.folder_off_rounded,
+                            size: 100,
+                          )
+                        : ExpenseListScreen(
+                            expenses,
+                            removeExpense: _removeExpense,
+                            showUpdateModal: showUpdateExpense,
+                          ),
+                  ),
+                ],
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: bucketExpenses.isEmpty
+                        ? Text(
+                            'Chart',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
+                            ),
+                          )
+                        : ExpensePieChart(buckets: bucketExpenses),
+                  ),
+                  Expanded(
+                    child: expenses.isEmpty
+                        ? Icon(
+                            Icons.folder_off_rounded,
+                            size: 100,
+                          )
+                        : ExpenseListScreen(
+                            expenses,
+                            removeExpense: _removeExpense,
+                            showUpdateModal: showUpdateExpense,
+                          ),
+                  ),
+                ],
+              ),
       ),
     );
   }
