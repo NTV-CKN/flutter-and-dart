@@ -7,7 +7,7 @@ class TodoItem extends StatelessWidget {
 
   final String text;
   final Priority priority;
-
+  
   @override
   Widget build(BuildContext context) {
     var icon = Icons.low_priority;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:second_app/keys/checkable_todo_item.dart';
 import 'package:second_app/keys/todo_item.dart';
 
 class Todo {
@@ -6,6 +7,11 @@ class Todo {
 
   final String text;
   final Priority priority;
+
+  @override
+  String toString() {
+    return '$text ${priority.name}';
+  }
 }
 
 class Keys extends StatefulWidget {
@@ -40,6 +46,7 @@ class _KeysState extends State<Keys> {
       final bComesAfterA = a.text.compareTo(b.text);
       return _order == 'asc' ? bComesAfterA : -bComesAfterA;
     });
+
     return sortedTodos;
   }
 
@@ -68,7 +75,7 @@ class _KeysState extends State<Keys> {
             children: [
               // for (final todo in _orderedTodos) TodoItem(todo.text, todo.priority),
               for (final todo in _orderedTodos)
-                TodoItem(
+                CheckableTodoItem(
                   todo.text,
                   todo.priority,
                 ),
