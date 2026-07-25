@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:second_app/button_stateful.dart';
 
 class UIUpdatesDemo extends StatefulWidget {
   const UIUpdatesDemo({super.key});
@@ -18,8 +19,6 @@ class UIUpdatesDemo extends StatefulWidget {
 }
 
 class _UIUpdatesDemo extends State<UIUpdatesDemo> {
-  var _isUnderstood = false;
-
   @override
   void initState() {
     print('UIUpdatesDemo initState called');
@@ -61,8 +60,6 @@ class _UIUpdatesDemo extends State<UIUpdatesDemo> {
     print('UIUpdatesDemo BUILD called');
 
     //register dependency MediaQuery
-    final widthSpace = MediaQuery.of(context).viewInsets.bottom;
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Center(
@@ -81,29 +78,8 @@ class _UIUpdatesDemo extends State<UIUpdatesDemo> {
               'Do you understand how Flutter updates UIs?',
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    setState(() {
-                      _isUnderstood = false;
-                    });
-                  },
-                  child: const Text('No'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    setState(() {
-                      _isUnderstood = true;
-                    });
-                  },
-                  child: const Text('Yes'),
-                ),
-              ],
-            ),
-            if (_isUnderstood) const Text('Awesome!'),
+            const SizedBox(height: 16),
+            ButtonStateful(),
           ],
         ),
       ),
