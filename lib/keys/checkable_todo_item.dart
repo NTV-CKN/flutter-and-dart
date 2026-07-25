@@ -3,7 +3,7 @@ import 'package:second_app/keys/todo_item.dart';
 
 class CheckableTodoItem extends StatefulWidget {
   const CheckableTodoItem(this.text, this.priority, {super.key});
-
+  
   final String text;
   final Priority priority;
 
