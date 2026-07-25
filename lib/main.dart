@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:second_app/ui_update_demo.dart';
+import 'package:second_app/keys/keys.dart';
 
 void main() {
   runApp(const App());
@@ -16,7 +16,7 @@ class App extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Flutter Internals'),
         ),
-        body: const UIUpdatesDemo(),
+        body: const Keys(),
       ),
     );
   }
