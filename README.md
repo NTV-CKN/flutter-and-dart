@@ -18,6 +18,7 @@ Mỗi branch trong repository được chia thành các loại ứng dụng khá
 - `quiz` - Ứng dụng làm trắc nghiệm (Tìm hiểu về điều hướng thủ công, lifting up state)
 - `expense_tracker` - Ứng dụng quản lí chi tiêu (CRUD với RandomAccessFile/ByteData, Chart, Theme, Responsiveness)
 - `behind-scene` - Tìm hiểu sâu quy trình xử lý 3 cây, các callback của stateful widget, key,...
+- `meal_app` - Ứng dụng chọn công thức món ăn (Tìm hiểu về State Management, quản lí điều hướng đa màn hình, UI/Widget nâng cao)
 
 ## Bắt Đầu
 
