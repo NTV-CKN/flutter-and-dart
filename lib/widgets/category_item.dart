@@ -3,13 +3,20 @@ import 'package:second_app/models/category.dart';
 
 class CategoryItem extends StatelessWidget {
   final Category category;
+  final void Function(Category category) navMeals;
 
-  const CategoryItem({super.key, required this.category});
+  const CategoryItem({
+    super.key,
+    required this.category,
+    required this.navMeals,
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        navMeals.call(category);
+      },
       splashColor: Theme.of(context).colorScheme.primaryContainer,
       borderRadius: BorderRadius.circular(20),
       child: Ink(

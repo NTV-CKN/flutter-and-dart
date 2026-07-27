@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:second_app/data/dummy_categories.dart';
+import 'package:second_app/data/dummy_meals.dart';
 import 'package:second_app/screens/categories_screen.dart';
 
 final kColorScheme = ColorScheme.fromSeed(
@@ -25,8 +26,15 @@ class Main extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: theme,
+      theme: ThemeData(
+        colorScheme: kColorScheme,
+        textTheme: GoogleFonts.latoTextTheme(),
+        appBarTheme: Theme.of(context).appBarTheme.copyWith(
+          foregroundColor: kColorScheme.onPrimary,
+        ),
+      ),
       home: CategoriesScreen(
+        meals: dummyMeals,
         categories: availableCategories,
       ),
     );
