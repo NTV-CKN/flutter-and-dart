@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:second_app/data/dummy_categories.dart';
+import 'package:second_app/screens/categories_screen.dart';
 
 final kColorScheme = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 161, 123, 238),
@@ -22,9 +24,10 @@ class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: theme,
-      home: Scaffold(
-        body: Text('Hello world!'),
+      home: CategoriesScreen(
+        categories: availableCategories,
       ),
     );
   }
