@@ -20,6 +20,7 @@ class CategoriesScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
       ),
       body: GridView.builder(
+        padding: EdgeInsets.all(10),
         itemCount: categories.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
