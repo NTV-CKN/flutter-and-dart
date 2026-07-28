@@ -5,9 +5,9 @@ import 'package:second_app/widgets/meal_item.dart';
 
 class MealsScreen extends StatelessWidget {
   final List<Meal> meals;
-  final String title;
+  final String? title;
 
-  const MealsScreen({super.key, required this.title, required this.meals});
+  const MealsScreen({super.key, this.title, required this.meals});
 
   void _navigateDetailMeal(BuildContext ctx, Meal meal) {
     Navigator.push(
@@ -50,10 +50,14 @@ class MealsScreen extends StatelessWidget {
       );
     }
 
+    if (title == null) {
+      return content;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          title,
+          title!,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
             color: Theme.of(context).colorScheme.primaryContainer,

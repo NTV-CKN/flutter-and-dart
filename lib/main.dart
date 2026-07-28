@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:second_app/data/dummy_categories.dart';
 import 'package:second_app/data/dummy_meals.dart';
 import 'package:second_app/screens/categories_screen.dart';
+import 'package:second_app/screens/tab_based_screen.dart';
 
 final kColorScheme = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 117, 171, 236),
@@ -33,10 +34,7 @@ class Main extends StatelessWidget {
           foregroundColor: kColorScheme.onPrimary,
         ),
       ),
-      home: CategoriesScreen(
-        meals: dummyMeals,
-        categories: availableCategories,
-      ),
+      home: TabBasedScreen(),
     );
   }
 }

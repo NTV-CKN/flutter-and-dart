@@ -31,32 +31,20 @@ class CategoriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Pick your category',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.primaryContainer,
-          ),
-        ),
-        backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+    return GridView.builder(
+      padding: EdgeInsets.all(10),
+      itemCount: categories.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 1.5,
+        crossAxisSpacing: 15,
+        mainAxisSpacing: 10,
       ),
-      body: GridView.builder(
-        padding: EdgeInsets.all(10),
-        itemCount: categories.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 1.5,
-          crossAxisSpacing: 15,
-          mainAxisSpacing: 10,
-        ),
-        itemBuilder: (ctx, index) => CategoryItem(
-          category: categories[index],
-          navMeals: (category) {
-            _navigateMeals(ctx, category);
-          },
-        ),
+      itemBuilder: (ctx, index) => CategoryItem(
+        category: categories[index],
+        navMeals: (category) {
+          _navigateMeals(ctx, category);
+        },
       ),
     );
   }
