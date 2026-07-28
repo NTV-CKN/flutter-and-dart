@@ -5,7 +5,7 @@ import 'package:second_app/data/dummy_meals.dart';
 import 'package:second_app/screens/categories_screen.dart';
 
 final kColorScheme = ColorScheme.fromSeed(
-  seedColor: const Color.fromARGB(255, 161, 123, 238),
+  seedColor: const Color.fromARGB(255, 117, 171, 236),
 );
 
 final theme = ThemeData(
