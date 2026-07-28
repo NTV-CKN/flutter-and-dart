@@ -22,10 +22,64 @@ class MealDetailScreen extends StatelessWidget {
         ),
         backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
       ),
-      body: Center(
-        child: FadeInImage.assetNetwork(
-          placeholder: 'assets/images/loading.gif',
-          image: meal.imageUrl,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadiusGeometry.circular(16),
+              ),
+              clipBehavior: Clip.hardEdge,
+              margin: EdgeInsets.all(8),
+              child: FadeInImage.assetNetwork(
+                placeholder: 'assets/images/loading.gif',
+                image: meal.imageUrl,
+              ),
+            ),
+            Text(
+              'Ingredients',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: Colors.orange,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            for (var ingredient in meal.ingredients)
+              Text(
+                ingredient,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontSize: 15,
+                ),
+              ),
+            SizedBox(
+              height: 8,
+            ),
+            Text(
+              'Steps',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: Colors.orange,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            for (var step in meal.steps)
+              Text(
+                step,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontSize: 15,
+                ),
+              ),
+          ],
         ),
       ),
     );

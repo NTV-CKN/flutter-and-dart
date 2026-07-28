@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:second_app/data/dummy_categories.dart';
-import 'package:second_app/data/dummy_meals.dart';
-import 'package:second_app/screens/categories_screen.dart';
 import 'package:second_app/screens/tab_based_screen.dart';
 
 final kColorScheme = ColorScheme.fromSeed(
