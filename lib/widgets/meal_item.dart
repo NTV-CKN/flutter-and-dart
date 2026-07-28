@@ -4,8 +4,13 @@ import 'package:second_app/widgets/meal_item_trait.dart';
 
 class MealItem extends StatelessWidget {
   final Meal meal;
+  final void Function(Meal meal) navigateDetailMeal;
 
-  const MealItem({super.key, required this.meal});
+  const MealItem({
+    super.key,
+    required this.meal,
+    required this.navigateDetailMeal,
+  });
 
   String get affordability {
     return meal.affordability.name[0].toUpperCase() +
@@ -46,6 +51,8 @@ class MealItem extends StatelessWidget {
                 children: [
                   Text(
                     meal.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontSize: 20,
@@ -87,7 +94,7 @@ class MealItem extends StatelessWidget {
             child: Material(
               color: Colors.transparent,
               child: InkWell(
-                onTap: () {},
+                onTap: () => navigateDetailMeal.call(meal),
                 splashColor: Theme.of(
                   context,
                 ).colorScheme.primaryContainer.withAlpha(140),
