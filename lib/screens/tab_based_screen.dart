@@ -4,6 +4,7 @@ import 'package:second_app/data/dummy_meals.dart';
 import 'package:second_app/models/meal.dart';
 import 'package:second_app/screens/categories_screen.dart';
 import 'package:second_app/screens/meals_screen.dart';
+import 'package:second_app/widgets/main_drawer.dart';
 
 class TabBasedScreen extends StatefulWidget {
   const TabBasedScreen({super.key});
@@ -80,6 +81,7 @@ class _TabBasedScreenState extends State<TabBasedScreen> {
         ),
         backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
       ),
+      drawer: MainDrawer(),
       body: content,
       bottomNavigationBar: BottomNavigationBar(
         onTap: _navigateBottom,
