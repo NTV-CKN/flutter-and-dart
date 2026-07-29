@@ -9,13 +9,13 @@ class TabBasedScreen extends StatefulWidget {
   const TabBasedScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() {
+  State<TabBasedScreen> createState() {
     return _TabBasedScreenState();
   }
 }
 
 class _TabBasedScreenState extends State<TabBasedScreen> {
-  final favoriteMeals = [];
+  final List<Meal> favoriteMeals = [];
 
   final titles = ['Pick your category', 'Favorites'];
 
@@ -48,22 +48,26 @@ class _TabBasedScreenState extends State<TabBasedScreen> {
     );
   }
 
-  late final screens = [
-    CategoriesScreen(
-      categories: availableCategories,
-      meals: dummyMeals,
-      actionFavorite: _actionFavorite,
-    ),
-    //temp
-    MealsScreen(
-      meals: [],
-      actionFavorite: _actionFavorite,
-    ),
-  ];
+  void _actionSetState() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
-    final content = screens[_currentSelected];
+    Widget content = CategoriesScreen(
+      categories: availableCategories,
+      meals: dummyMeals,
+      actionFavorite: _actionFavorite,
+      actionSetState: _actionSetState,
+    );
+
+    if (_currentSelected == 1) {
+      content = MealsScreen(
+        meals: favoriteMeals,
+        actionFavorite: _actionFavorite,
+        actionSetState: _actionSetState,
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(

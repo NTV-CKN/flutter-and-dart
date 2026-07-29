@@ -8,26 +8,29 @@ class CategoriesScreen extends StatelessWidget {
   final List<Category> categories;
   final List<Meal> meals;
   final void Function(Meal meal) actionFavorite;
+  final void Function() actionSetState;
 
   const CategoriesScreen({
     super.key,
     required this.categories,
     required this.meals,
-    required this.actionFavorite
+    required this.actionFavorite,
+    required this.actionSetState,
   });
 
-  void _navigateMeals(BuildContext ctx, Category category) {
+  Future<void> _navigateMeals(BuildContext ctx, Category category) async {
     final mealsByCategory = meals
         .where((meal) => meal.categories.contains(category.id))
         .toList();
 
-    Navigator.push(
+    await Navigator.push<void>(
       ctx,
       MaterialPageRoute(
         builder: (context) => MealsScreen(
           title: category.title,
           meals: mealsByCategory,
           actionFavorite: actionFavorite,
+          actionSetState: actionSetState,
         ),
       ),
     );
