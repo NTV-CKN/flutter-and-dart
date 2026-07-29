@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:second_app/data/dummy_categories.dart';
 import 'package:second_app/data/dummy_meals.dart';
+import 'package:second_app/models/meal.dart';
 import 'package:second_app/screens/categories_screen.dart';
 import 'package:second_app/screens/meals_screen.dart';
 
@@ -14,11 +15,7 @@ class TabBasedScreen extends StatefulWidget {
 }
 
 class _TabBasedScreenState extends State<TabBasedScreen> {
-  final screens = [
-    CategoriesScreen(categories: availableCategories, meals: dummyMeals),
-    //temp
-    MealsScreen(meals: []),
-  ];
+  final favoriteMeals = [];
 
   final titles = ['Pick your category', 'Favorites'];
 
@@ -31,6 +28,38 @@ class _TabBasedScreenState extends State<TabBasedScreen> {
       title = titles[index];
     });
   }
+
+  void _actionFavorite(Meal meal) {
+    final isFavorite = favoriteMeals.contains(meal);
+    if (isFavorite) {
+      favoriteMeals.remove(meal);
+    } else {
+      favoriteMeals.add(meal);
+    }
+
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          isFavorite ? 'Remove success' : 'Add success',
+        ),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
+  late final screens = [
+    CategoriesScreen(
+      categories: availableCategories,
+      meals: dummyMeals,
+      actionFavorite: _actionFavorite,
+    ),
+    //temp
+    MealsScreen(
+      meals: [],
+      actionFavorite: _actionFavorite,
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {

@@ -40,4 +40,15 @@ class Meal {
   final bool isLactoseFree;
   final bool isVegan;
   final bool isVegetarian;
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Meal && other.id == id;
+  }
+  
+  @override
+  int get hashCode => super.hashCode;
+  
 }
