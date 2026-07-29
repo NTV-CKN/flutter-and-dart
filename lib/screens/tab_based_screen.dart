@@ -3,6 +3,7 @@ import 'package:second_app/data/dummy_categories.dart';
 import 'package:second_app/data/dummy_meals.dart';
 import 'package:second_app/models/meal.dart';
 import 'package:second_app/screens/categories_screen.dart';
+import 'package:second_app/screens/filter_meals_screen.dart';
 import 'package:second_app/screens/meals_screen.dart';
 import 'package:second_app/widgets/main_drawer.dart';
 
@@ -53,6 +54,16 @@ class _TabBasedScreenState extends State<TabBasedScreen> {
     setState(() {});
   }
 
+  void _actionTapDrawerItem(String typeItem) {
+    Navigator.of(context).pop();
+    if (typeItem.toLowerCase() == 'meals') {
+    } else if (typeItem.toLowerCase() == 'filters') {
+      Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (ctx) => FilterMealsScreen()));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget content = CategoriesScreen(
@@ -81,7 +92,9 @@ class _TabBasedScreenState extends State<TabBasedScreen> {
         ),
         backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
       ),
-      drawer: MainDrawer(),
+      drawer: MainDrawer(
+        actionTapDrawerItem: _actionTapDrawerItem,
+      ),
       body: content,
       bottomNavigationBar: BottomNavigationBar(
         onTap: _navigateBottom,

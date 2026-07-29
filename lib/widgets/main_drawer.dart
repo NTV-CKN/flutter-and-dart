@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:second_app/widgets/item_drawer.dart';
+import 'package:second_app/widgets/items/item_drawer.dart';
 
 class MainDrawer extends StatelessWidget {
-  const MainDrawer({super.key});
+  final void Function(String typeItem) actionTapDrawerItem;
+
+  const MainDrawer({super.key, required this.actionTapDrawerItem});
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +46,16 @@ class MainDrawer extends StatelessWidget {
               ],
             ),
           ),
-          ItemDrawer(icon: Icons.food_bank, title: 'Meals'),
-          ItemDrawer(icon: Icons.settings, title: 'Filters'),
+          ItemDrawer(
+            icon: Icons.food_bank,
+            title: 'Meals',
+            actionTapDrawerItem: actionTapDrawerItem,
+          ),
+          ItemDrawer(
+            icon: Icons.settings,
+            title: 'Filters',
+            actionTapDrawerItem: actionTapDrawerItem,
+          ),
         ],
       ),
     );

@@ -3,13 +3,21 @@ import 'package:flutter/material.dart';
 class ItemDrawer extends StatelessWidget {
   final IconData icon;
   final String title;
+  final void Function(String typeItem) actionTapDrawerItem;
 
-  const ItemDrawer({super.key, required this.icon, required this.title});
+  const ItemDrawer({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.actionTapDrawerItem,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {},
+      onTap: () {
+        actionTapDrawerItem.call(title);
+      },
       leading: Icon(
         icon,
         size: 23,
