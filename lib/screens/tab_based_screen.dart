@@ -7,6 +7,13 @@ import 'package:second_app/screens/filter_meals_screen.dart';
 import 'package:second_app/screens/meals_screen.dart';
 import 'package:second_app/widgets/main_drawer.dart';
 
+// const initFilterOptions = {
+//   Filter.gluten: false,
+//   Filter.lactose: false,
+//   Filter.vegan: false,
+//   Filter.vegetarian: false
+// };
+
 class TabBasedScreen extends StatefulWidget {
   const TabBasedScreen({super.key});
 
@@ -18,6 +25,7 @@ class TabBasedScreen extends StatefulWidget {
 
 class _TabBasedScreenState extends State<TabBasedScreen> {
   final List<Meal> favoriteMeals = [];
+  late final filterOptions;
 
   final titles = ['Pick your category', 'Favorites'];
 
@@ -54,21 +62,60 @@ class _TabBasedScreenState extends State<TabBasedScreen> {
     setState(() {});
   }
 
-  void _actionTapDrawerItem(String typeItem) {
+  void _actionTapDrawerItem(String typeItem) async {
     Navigator.of(context).pop();
     if (typeItem.toLowerCase() == 'meals') {
     } else if (typeItem.toLowerCase() == 'filters') {
-      Navigator.of(
+      await Navigator.of(
         context,
-      ).push(MaterialPageRoute(builder: (ctx) => FilterMealsScreen()));
+      ).push(
+        MaterialPageRoute(
+          builder: (ctx) => FilterMealsScreen(
+            filterOptions: filterOptions,
+          ),
+        ),
+      );
+
+      setState(() {});
     }
   }
 
   @override
+  void initState() {
+    filterOptions = {
+      Filter.gluten: false,
+      Filter.lactose: false,
+      Filter.vegan: false,
+      Filter.vegetarian: false,
+    };
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final mealAvailable = dummyMeals.where((meal) {
+      if (filterOptions[Filter.gluten] && !meal.isGlutenFree) {
+        return false;
+      }
+
+      if (filterOptions[Filter.lactose] && !meal.isLactoseFree) {
+        return false;
+      }
+
+      if (filterOptions[Filter.vegan] && !meal.isVegan) {
+        return false;
+      }
+
+      if (filterOptions[Filter.vegetarian] && !meal.isVegetarian) {
+        return false;
+      }
+
+      return true;
+    }).toList();
+
     Widget content = CategoriesScreen(
       categories: availableCategories,
-      meals: dummyMeals,
+      meals: mealAvailable,
       actionFavorite: _actionFavorite,
       actionSetState: _actionSetState,
     );

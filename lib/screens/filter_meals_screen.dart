@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:second_app/widgets/items/item_switch_tile.dart';
 
+enum Filter { gluten, lactose, vegan, vegetarian }
+
 class FilterMealsScreen extends StatefulWidget {
-  const FilterMealsScreen({super.key});
+  final filterOptions;
+
+  const FilterMealsScreen({super.key, required this.filterOptions});
 
   @override
   State<FilterMealsScreen> createState() {
@@ -11,10 +15,10 @@ class FilterMealsScreen extends StatefulWidget {
 }
 
 class _FilterMealsScreenState extends State<FilterMealsScreen> {
-  bool _isGlutenFree = false,
-      _isLactoseFree = false,
-      _isVegetarian = false,
-      _isVegen = false;
+  // bool _isGlutenFree = false,
+  //     _isLactoseFree = false,
+  //     _isVegetarian = false,
+  //     _isVegen = false;
 
   final String glutenTitle = 'Gluten-free',
       lactoseTitle = 'Lactose-free',
@@ -24,13 +28,17 @@ class _FilterMealsScreenState extends State<FilterMealsScreen> {
   void _actionSwitchTap(bool isChecked, String type) {
     setState(() {
       if (type == glutenTitle) {
-        _isGlutenFree = isChecked;
+        widget.filterOptions[Filter.gluten] = isChecked;
+        //_isGlutenFree = isChecked;
       } else if (type == lactoseTitle) {
-        _isLactoseFree = isChecked;
+        widget.filterOptions[Filter.lactose] = isChecked;
+        //_isLactoseFree = isChecked;
       } else if (type == vegetarianTitle) {
-        _isVegetarian = isChecked;
+        widget.filterOptions[Filter.vegetarian] = isChecked;
+        //_isVegetarian = isChecked;
       } else if (type == vegenTitle) {
-        _isVegen = isChecked;
+        widget.filterOptions[Filter.vegan] = isChecked;
+        //_isVegen = isChecked;
       }
     });
   }
@@ -51,25 +59,25 @@ class _FilterMealsScreenState extends State<FilterMealsScreen> {
       body: ListView(
         children: [
           ItemSwitchTile(
-            isChecked: _isGlutenFree,
+            isChecked: widget.filterOptions[Filter.gluten],
             label: glutenTitle,
             subtitle: 'Only include gluten-free meal',
             actionTapSwitch: _actionSwitchTap,
           ),
           ItemSwitchTile(
-            isChecked: _isLactoseFree,
+            isChecked: widget.filterOptions[Filter.lactose],
             label: lactoseTitle,
             subtitle: 'Only include lactose-free meal',
             actionTapSwitch: _actionSwitchTap,
           ),
           ItemSwitchTile(
-            isChecked: _isVegetarian,
+            isChecked: widget.filterOptions[Filter.vegetarian],
             label: vegetarianTitle,
             subtitle: 'Only include vegetarian meal',
             actionTapSwitch: _actionSwitchTap,
           ),
           ItemSwitchTile(
-            isChecked: _isVegen,
+            isChecked: widget.filterOptions[Filter.vegan],
             label: vegenTitle,
             subtitle: 'Only include vegan meal',
             actionTapSwitch: _actionSwitchTap,
