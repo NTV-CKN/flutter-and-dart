@@ -7,15 +7,11 @@ import 'package:second_app/widgets/category_item.dart';
 class CategoriesScreen extends StatelessWidget {
   final List<Category> categories;
   final List<Meal> meals;
-  final void Function(Meal meal) actionFavorite;
-  final void Function() actionSetState;
 
   const CategoriesScreen({
     super.key,
     required this.categories,
     required this.meals,
-    required this.actionFavorite,
-    required this.actionSetState,
   });
 
   Future<void> _navigateMeals(BuildContext ctx, Category category) async {
@@ -29,8 +25,6 @@ class CategoriesScreen extends StatelessWidget {
         builder: (context) => MealsScreen(
           title: category.title,
           meals: mealsByCategory,
-          actionFavorite: actionFavorite,
-          actionSetState: actionSetState,
         ),
       ),
     );

@@ -6,15 +6,11 @@ import 'package:second_app/widgets/meal_item.dart';
 class MealsScreen extends StatelessWidget {
   final List<Meal> meals;
   final String? title;
-  final void Function(Meal meal) actionFavorite;
-  final void Function() actionSetState;
 
   const MealsScreen({
     super.key,
     this.title,
     required this.meals,
-    required this.actionFavorite,
-    required this.actionSetState,
   });
 
   Future<void> _navigateDetailMeal(BuildContext ctx, Meal meal) async {
@@ -23,11 +19,9 @@ class MealsScreen extends StatelessWidget {
       MaterialPageRoute(
         builder: (context) => MealDetailScreen(
           meal: meal,
-          actionFavorite: actionFavorite,
         ),
       ),
     );
-    actionSetState.call();
   }
 
   @override

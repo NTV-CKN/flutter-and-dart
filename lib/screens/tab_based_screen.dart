@@ -1,30 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:second_app/data/dummy_categories.dart';
 import 'package:second_app/data/dummy_meals.dart';
 import 'package:second_app/models/meal.dart';
+import 'package:second_app/providers/provider/dummy_provider.dart';
+import 'package:second_app/providers/state_notifier/favorite_meal_provider.dart';
 import 'package:second_app/screens/categories_screen.dart';
 import 'package:second_app/screens/filter_meals_screen.dart';
 import 'package:second_app/screens/meals_screen.dart';
 import 'package:second_app/widgets/main_drawer.dart';
 
-// const initFilterOptions = {
-//   Filter.gluten: false,
-//   Filter.lactose: false,
-//   Filter.vegan: false,
-//   Filter.vegetarian: false
-// };
-
-class TabBasedScreen extends StatefulWidget {
+class TabBasedScreen extends ConsumerStatefulWidget {
   const TabBasedScreen({super.key});
 
   @override
-  State<TabBasedScreen> createState() {
+  ConsumerState<TabBasedScreen> createState() {
     return _TabBasedScreenState();
   }
 }
 
-class _TabBasedScreenState extends State<TabBasedScreen> {
-  final List<Meal> favoriteMeals = [];
+class _TabBasedScreenState extends ConsumerState<TabBasedScreen> {
   late final filterOptions;
 
   final titles = ['Pick your category', 'Favorites'];
@@ -37,25 +32,6 @@ class _TabBasedScreenState extends State<TabBasedScreen> {
       _currentSelected = index;
       title = titles[index];
     });
-  }
-
-  void _actionFavorite(Meal meal) {
-    final isFavorite = favoriteMeals.contains(meal);
-    if (isFavorite) {
-      favoriteMeals.remove(meal);
-    } else {
-      favoriteMeals.add(meal);
-    }
-
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          isFavorite ? 'Remove success' : 'Add success',
-        ),
-        duration: Duration(seconds: 2),
-      ),
-    );
   }
 
   void _actionSetState() {
@@ -93,6 +69,9 @@ class _TabBasedScreenState extends State<TabBasedScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final favoriteMeals = ref.watch(favoriteMealsProvider);
+    final dummyMeals = ref.watch(mealsProvider);
+
     final mealAvailable = dummyMeals.where((meal) {
       if (filterOptions[Filter.gluten] && !meal.isGlutenFree) {
         return false;
@@ -116,15 +95,11 @@ class _TabBasedScreenState extends State<TabBasedScreen> {
     Widget content = CategoriesScreen(
       categories: availableCategories,
       meals: mealAvailable,
-      actionFavorite: _actionFavorite,
-      actionSetState: _actionSetState,
     );
 
     if (_currentSelected == 1) {
       content = MealsScreen(
         meals: favoriteMeals,
-        actionFavorite: _actionFavorite,
-        actionSetState: _actionSetState,
       );
     }
 
