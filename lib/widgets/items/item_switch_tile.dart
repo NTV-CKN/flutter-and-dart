@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:second_app/providers/state_notifier/filter_meal_provider.dart';
+import 'package:second_app/screens/filter_meals_screen.dart';
 
-class ItemSwitchTile extends StatelessWidget {
+class ItemSwitchTile extends ConsumerWidget {
   final bool _isChecked;
   final String _label, _subtitle;
-  final void Function(bool isChecked, String type) _actionTapSwitch;
+  final Filter _filter;
+
   const ItemSwitchTile({
     super.key,
     required this._isChecked,
     required this._label,
     required this._subtitle,
-    required this._actionTapSwitch,
+    required this._filter,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SwitchListTile(
       value: _isChecked,
-      onChanged: (isChecked) => _actionTapSwitch.call(isChecked, _label),
+      onChanged: (isChecked) {
+        ref.read(filterMealProvider.notifier).switchFilter(_filter, isChecked);
+      },
       subtitle: Text(
         _subtitle,
         style: Theme.of(context).textTheme.titleLarge?.copyWith(

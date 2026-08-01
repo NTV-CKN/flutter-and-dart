@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:second_app/data/dummy_categories.dart';
-import 'package:second_app/data/dummy_meals.dart';
-import 'package:second_app/models/meal.dart';
 import 'package:second_app/providers/provider/dummy_provider.dart';
 import 'package:second_app/providers/state_notifier/favorite_meal_provider.dart';
+import 'package:second_app/providers/state_notifier/filter_meal_provider.dart';
 import 'package:second_app/screens/categories_screen.dart';
 import 'package:second_app/screens/filter_meals_screen.dart';
 import 'package:second_app/screens/meals_screen.dart';
@@ -20,8 +19,6 @@ class TabBasedScreen extends ConsumerStatefulWidget {
 }
 
 class _TabBasedScreenState extends ConsumerState<TabBasedScreen> {
-  late final filterOptions;
-
   final titles = ['Pick your category', 'Favorites'];
 
   int _currentSelected = 0;
@@ -34,10 +31,6 @@ class _TabBasedScreenState extends ConsumerState<TabBasedScreen> {
     });
   }
 
-  void _actionSetState() {
-    setState(() {});
-  }
-
   void _actionTapDrawerItem(String typeItem) async {
     Navigator.of(context).pop();
     if (typeItem.toLowerCase() == 'meals') {
@@ -46,9 +39,7 @@ class _TabBasedScreenState extends ConsumerState<TabBasedScreen> {
         context,
       ).push(
         MaterialPageRoute(
-          builder: (ctx) => FilterMealsScreen(
-            filterOptions: filterOptions,
-          ),
+          builder: (ctx) => FilterMealsScreen(),
         ),
       );
 
@@ -57,35 +48,25 @@ class _TabBasedScreenState extends ConsumerState<TabBasedScreen> {
   }
 
   @override
-  void initState() {
-    filterOptions = {
-      Filter.gluten: false,
-      Filter.lactose: false,
-      Filter.vegan: false,
-      Filter.vegetarian: false,
-    };
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final filterOptions = ref.watch(filterMealProvider);
     final favoriteMeals = ref.watch(favoriteMealsProvider);
     final dummyMeals = ref.watch(mealsProvider);
 
     final mealAvailable = dummyMeals.where((meal) {
-      if (filterOptions[Filter.gluten] && !meal.isGlutenFree) {
+      if ((filterOptions[Filter.gluten] ?? false) && !meal.isGlutenFree) {
         return false;
       }
 
-      if (filterOptions[Filter.lactose] && !meal.isLactoseFree) {
+      if ((filterOptions[Filter.lactose] ?? false) && !meal.isLactoseFree) {
         return false;
       }
 
-      if (filterOptions[Filter.vegan] && !meal.isVegan) {
+      if ((filterOptions[Filter.vegan] ?? false) && !meal.isVegan) {
         return false;
       }
 
-      if (filterOptions[Filter.vegetarian] && !meal.isVegetarian) {
+      if ((filterOptions[Filter.vegetarian] ?? false) && !meal.isVegetarian) {
         return false;
       }
 
