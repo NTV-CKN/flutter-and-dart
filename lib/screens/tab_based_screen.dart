@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:second_app/data/dummy_categories.dart';
-import 'package:second_app/providers/provider/dummy_provider.dart';
 import 'package:second_app/providers/state_notifier/favorite_meal_provider.dart';
 import 'package:second_app/providers/state_notifier/filter_meal_provider.dart';
 import 'package:second_app/screens/categories_screen.dart';

@@ -4,7 +4,7 @@ import 'package:second_app/models/meal.dart';
 import 'package:second_app/screens/meals_screen.dart';
 import 'package:second_app/widgets/category_item.dart';
 
-class CategoriesScreen extends StatelessWidget {
+class CategoriesScreen extends StatefulWidget {
   final List<Category> categories;
   final List<Meal> meals;
 
@@ -31,22 +31,57 @@ class CategoriesScreen extends StatelessWidget {
   }
 
   @override
+  State<StatefulWidget> createState() {
+    return _CategoriesScreenState();
+  }
+}
+
+class _CategoriesScreenState extends State<CategoriesScreen>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 500),
+    );
+
+    _animationController.forward();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      padding: EdgeInsets.all(10),
-      itemCount: categories.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 1.5,
-        crossAxisSpacing: 15,
-        mainAxisSpacing: 10,
+    return AnimatedBuilder(
+      animation: _animationController,
+      child: GridView.builder(
+        padding: EdgeInsets.all(10),
+        itemCount: widget.categories.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 1.5,
+          crossAxisSpacing: 15,
+          mainAxisSpacing: 10,
+        ),
+        itemBuilder: (ctx, index) => CategoryItem(
+          category: widget.categories[index],
+          navMeals: (category) {
+            widget._navigateMeals(ctx, category);
+          },
+        ),
       ),
-      itemBuilder: (ctx, index) => CategoryItem(
-        category: categories[index],
-        navMeals: (category) {
-          _navigateMeals(ctx, category);
-        },
-      ),
+      builder: (context, child) {
+        return SlideTransition(
+          position: _animationController.drive(
+            Tween(
+              begin: Offset(1, 0),
+              end: Offset(0, 0),
+            ),
+          ),
+          child: child,
+        );
+      },
     );
   }
 }
