@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:second_app/screens/groceries.dart';
 
 final kColorScheme = ColorScheme.fromSeed(
-  seedColor: Color.fromARGB(255, 178, 232, 243),
+  seedColor: Color.fromARGB(255, 99, 159, 171),
 );
 
 void main() {
@@ -19,7 +19,7 @@ void main() {
           ),
           appBarTheme: AppBarTheme().copyWith(
             backgroundColor: kColorScheme.onPrimaryContainer,
-            foregroundColor: kColorScheme.primaryContainer,
+            foregroundColor: kColorScheme.onPrimary,
           ),
         ),
         home: MyApp(),
