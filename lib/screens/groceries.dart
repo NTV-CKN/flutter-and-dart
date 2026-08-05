@@ -37,7 +37,34 @@ class Groceries extends ConsumerWidget {
       ),
       body: ListView.builder(
         itemCount: groceries.length,
-        itemBuilder: (ctx, index) => GroceryItem(groceries[index]),
+        itemBuilder: (ctx, index) => Dismissible(
+          key: ValueKey(groceries[index].id),
+          child: GroceryItem(groceries[index]),
+          onDismissed: (direction) {
+            final grocery = groceries[index];
+            bool result = ref
+                .read(groceriesProvider.notifier)
+                .removeGroceries(grocery);
+            if (result) {
+              ScaffoldMessenger.of(context).clearSnackBars();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Removed',
+                  ),
+                  action: SnackBarAction(
+                    label: 'Undo',
+                    onPressed: () {
+                      ref
+                          .read(groceriesProvider.notifier)
+                          .addGroceries(grocery);
+                    },
+                  ),
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }
