@@ -11,4 +11,13 @@ class GroceryItem {
     required this.quantity,
     required this.category,
   });
+
+  @override
+  bool operator ==(Object other) {
+    if (other is! GroceryItem) return false;
+
+    if (identical(this, other)) return true;
+
+    return id == other.id;
+  }
 }
