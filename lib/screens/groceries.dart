@@ -4,9 +4,16 @@ import 'package:second_app/providers/groceries_provider.dart';
 import 'package:second_app/screens/add_grocery.dart';
 import 'package:second_app/widgets/category_item.dart';
 
-class Groceries extends ConsumerWidget {
+class Groceries extends ConsumerStatefulWidget {
   const Groceries({super.key});
 
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return _Groceries();
+  }
+}
+
+class _Groceries extends ConsumerState<Groceries> {
   void _navigateNewGrocery(BuildContext ctx) {
     Navigator.of(ctx).push(
       MaterialPageRoute(
@@ -16,7 +23,13 @@ class Groceries extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void initState() {
+    super.initState();
+    ref.read(groceriesProvider.notifier).loadGroceries();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final groceries = ref.watch(groceriesProvider);
 
     return Scaffold(
