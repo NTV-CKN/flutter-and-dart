@@ -14,9 +14,7 @@ class GroceriesStateNotifier extends StateNotifier<List<GroceryItem>> {
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {
-      final map =
-          json.decoder.convert(response.body)
-              as Map<String, dynamic>;
+      final map = json.decoder.convert(response.body) as Map<String, dynamic>;
 
       final List<GroceryItem> groceries = [];
       for (var entry in map.entries) {
@@ -33,6 +31,10 @@ class GroceriesStateNotifier extends StateNotifier<List<GroceryItem>> {
     final uri = Uri.https(Env.baseUrl, 'groceries.json');
 
     final response = await http.post(uri, body: json.encoder.convert(grocery));
+
+    if (response.statusCode == 200) {
+      state = [...state, grocery];
+    }
 
     return response.statusCode == 200;
   }
