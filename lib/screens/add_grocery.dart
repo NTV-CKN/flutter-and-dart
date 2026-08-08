@@ -22,11 +22,11 @@ class _AddGroceryState extends ConsumerState<AddGrocery> {
   int _quantity = 1;
   Category _category = categories[Categories.carbs]!;
 
-  void _handleAddGrocery() {
+  void _handleAddGrocery() async {
     if (_globalKey.currentState != null &&
         _globalKey.currentState!.validate()) {
       _globalKey.currentState!.save();
-      bool result = ref
+      bool result = await ref
           .read(groceriesProvider.notifier)
           .addGroceries(
             GroceryItem(
@@ -36,6 +36,10 @@ class _AddGroceryState extends ConsumerState<AddGrocery> {
               category: _category,
             ),
           );
+
+      if (!mounted) {
+        return;
+      }
 
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(

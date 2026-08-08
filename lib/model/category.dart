@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 
 enum Categories {
-  vegetables, 
+  vegetables,
   fruit,
   meat,
   other,
@@ -10,7 +10,7 @@ enum Categories {
   spices,
   sweets,
   carbs,
-  dairy
+  dairy,
 }
 
 class Category {
@@ -18,4 +18,18 @@ class Category {
   final Color color;
 
   const Category({required this.title, required this.color});
+
+  factory Category.fromJson(Map<String, dynamic> map) {
+    return Category(
+      title: map['title'],
+      color: Color(map['color'] as int),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'color': color.toARGB32(),
+    };
+  }
 }
