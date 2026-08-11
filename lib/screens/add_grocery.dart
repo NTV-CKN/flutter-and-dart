@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
- import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:second_app/data/dummy_categories.dart';
 import 'package:second_app/model/category.dart';
 import 'package:second_app/model/grocery_item.dart';
 import 'package:second_app/providers/categories_provider.dart';
 import 'package:second_app/providers/groceries_provider.dart';
+import 'package:second_app/widgets/progress_loading.dart';
 
 class AddGrocery extends ConsumerStatefulWidget {
   const AddGrocery({super.key});
@@ -25,6 +26,9 @@ class _AddGroceryState extends ConsumerState<AddGrocery> {
     if (_globalKey.currentState != null &&
         _globalKey.currentState!.validate()) {
       _globalKey.currentState!.save();
+
+      showDialogLoading(context);
+
       bool result = await ref
           .read(groceriesProvider.notifier)
           .addGroceries(
@@ -36,9 +40,11 @@ class _AddGroceryState extends ConsumerState<AddGrocery> {
             ),
           );
 
-      if(!mounted) {
+      if (!mounted) {
         return;
       }
+
+      hideDialogLoading(context);
 
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(

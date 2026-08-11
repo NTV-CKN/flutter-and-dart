@@ -1,20 +1,20 @@
 import 'package:second_app/model/category.dart';
 
 class GroceryItem {
-  final String id, name;
-  final int quantity;
-  final Category category;
+  String id, name;
+  int quantity;
+  Category category;
 
-  const GroceryItem({
+  GroceryItem({
     required this.id,
     required this.name,
     required this.quantity,
     required this.category,
   });
 
-  factory GroceryItem.fromJson(Map<String, dynamic> map) {
+  factory GroceryItem.fromJson(Map<String, dynamic> map, String key) {
     return GroceryItem(
-      id: map['id'],
+      id: key,
       name: map['name'],
       quantity: map['quantity'],
       category: Category.fromJson(map['category']),
@@ -23,7 +23,6 @@ class GroceryItem {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'name': name,
       'quantity': quantity,
       'category': category.toJson(),

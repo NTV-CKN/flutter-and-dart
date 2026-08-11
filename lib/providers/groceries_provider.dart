@@ -18,7 +18,7 @@ class GroceriesStateNotifier extends StateNotifier<List<GroceryItem>> {
 
       final List<GroceryItem> groceries = [];
       for (var entry in map.entries) {
-        groceries.add(GroceryItem.fromJson(entry.value));
+        groceries.add(GroceryItem.fromJson(entry.value, entry.key));
       }
 
       state = groceries;
@@ -33,6 +33,7 @@ class GroceriesStateNotifier extends StateNotifier<List<GroceryItem>> {
     final response = await http.post(uri, body: json.encoder.convert(grocery));
 
     if (response.statusCode == 200) {
+      grocery.id = response.body;
       state = [...state, grocery];
     }
 
