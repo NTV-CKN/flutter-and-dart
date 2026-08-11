@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:second_app/providers/groceries_provider.dart';
@@ -25,30 +27,56 @@ class _Groceries extends ConsumerState<Groceries> {
   @override
   void initState() {
     super.initState();
-    ref.read(groceriesProvider.notifier).loadGroceries();
+    Future.microtask(
+      () => ref.read(groceriesProvider.notifier).loadGroceries(),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final groceries = ref.watch(groceriesProvider);
+    final isLoading = ref.watch(isLoadingProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: () => _navigateNewGrocery(context),
-            icon: Icon(Icons.add),
-          ),
-        ],
-        title: Text(
-          'Your Groceries',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
+    Widget content;
+
+    if (isLoading) {
+      content = Center(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              Text(
+                'Loading...',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  fontSize: 17,
+                ),
+              ),
+            ],
           ),
         ),
-      ),
-      body: ListView.builder(
+      );
+    } else {
+      content = Center(
+        child: Text(
+          'Nothing here...',
+          style: TextStyle(
+            fontSize: 18,
+            color: Theme.of(context).colorScheme.onPrimaryContainer,
+          ),
+        ),
+      );
+    }
+
+    if (groceries.isNotEmpty) {
+      content = ListView.builder(
         itemCount: groceries.length,
         itemBuilder: (ctx, index) => Dismissible(
           key: ValueKey(groceries[index].id),
@@ -78,7 +106,26 @@ class _Groceries extends ConsumerState<Groceries> {
             }
           },
         ),
+      );
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () => _navigateNewGrocery(context),
+            icon: Icon(Icons.add),
+          ),
+        ],
+        title: Text(
+          'Your Groceries',
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
+      body: content,
     );
   }
 }

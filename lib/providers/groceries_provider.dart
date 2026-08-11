@@ -6,24 +6,33 @@ import 'package:second_app/model/grocery_item.dart';
 import 'package:http/http.dart' as http;
 
 class GroceriesStateNotifier extends StateNotifier<List<GroceryItem>> {
-  GroceriesStateNotifier() : super([]);
+  final Ref ref;
+
+  GroceriesStateNotifier(this.ref) : super([]);
 
   void loadGroceries() async {
-    final uri = Uri.https(Env.baseUrl, 'groceries.json');
+    ref.read(isLoadingProvider.notifier).state = true;
 
-    final response = await http.get(uri);
+    try {
+      final uri = Uri.https(Env.baseUrl, 'groceries.json');
 
-    if (response.statusCode == 200) {
-      final map = json.decoder.convert(response.body) as Map<String, dynamic>;
+      final response = await http.get(uri);
 
-      final List<GroceryItem> groceries = [];
-      for (var entry in map.entries) {
-        groceries.add(GroceryItem.fromJson(entry.value, entry.key));
+      if (response.statusCode == 200) {
+        final map = json.decoder.convert(response.body) as Map<String, dynamic>;
+
+        final List<GroceryItem> groceries = [];
+        for (var entry in map.entries) {
+          groceries.add(GroceryItem.fromJson(entry.value, entry.key));
+        }
+
+        state = groceries;
+      } else {
+        state = [];
       }
-
-      state = groceries;
-    } else {
-      state = [];
+    } catch (_) {
+    } finally {
+      ref.read(isLoadingProvider.notifier).state = false;
     }
   }
 
@@ -50,5 +59,9 @@ class GroceriesStateNotifier extends StateNotifier<List<GroceryItem>> {
 
 final groceriesProvider =
     StateNotifierProvider<GroceriesStateNotifier, List<GroceryItem>>((ref) {
-      return GroceriesStateNotifier();
+      return GroceriesStateNotifier(ref);
     });
+
+final isLoadingProvider = StateProvider<bool>((ref) {
+  return false;
+});
