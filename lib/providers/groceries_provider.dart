@@ -42,18 +42,38 @@ class GroceriesStateNotifier extends StateNotifier<List<GroceryItem>> {
     final response = await http.post(uri, body: json.encoder.convert(grocery));
 
     if (response.statusCode == 200) {
-      grocery.id = response.body;
+      final result = json.decoder.convert(response.body) as Map<String, dynamic>;
+      grocery.id = result['name'];
       state = [...state, grocery];
     }
 
     return response.statusCode == 200;
   }
 
-  bool removeGroceries(GroceryItem grocery) {
-    bool result = state.remove(grocery);
+  Future<bool> removeGroceries(GroceryItem grocery, int index) async {
+    state.remove(grocery);
     state = [...state];
 
-    return result;
+    try {
+      final response = await http.delete(
+        Uri.https(Env.baseUrl, 'groceries/${grocery.id}.json'),
+      );
+
+      if (response.statusCode >= 200 && response.statusCode <= 299) {
+        return true;
+      }
+
+      state.add(grocery);
+      state = [...state];
+
+      return false;
+    } catch (e) {
+      state.add(grocery);
+      state = [...state];
+
+      print(e);
+      return false;
+    }
   }
 }
 

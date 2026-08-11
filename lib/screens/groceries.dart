@@ -78,34 +78,51 @@ class _Groceries extends ConsumerState<Groceries> {
     if (groceries.isNotEmpty) {
       content = ListView.builder(
         itemCount: groceries.length,
-        itemBuilder: (ctx, index) => Dismissible(
-          key: ValueKey(groceries[index].id),
-          child: GroceryItem(groceries[index]),
-          onDismissed: (direction) {
-            final grocery = groceries[index];
-            bool result = ref
-                .read(groceriesProvider.notifier)
-                .removeGroceries(grocery);
-            if (result) {
-              ScaffoldMessenger.of(context).clearSnackBars();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    'Removed',
+        itemBuilder: (ctx, index) {
+          print('Dismissable: $index ' + groceries[index].id);
+
+          return Dismissible(
+            key: ValueKey(groceries[index].id),
+            child: GroceryItem(groceries[index]),
+            onDismissed: (direction) async {
+              final grocery = groceries[index];
+              bool result = await ref
+                  .read(groceriesProvider.notifier)
+                  .removeGroceries(grocery, index);
+
+              if (!mounted) return;
+
+              if (result) {
+                // ignore: use_build_context_synchronously
+                ScaffoldMessenger.of(context).clearSnackBars();
+                // ignore: use_build_context_synchronously
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Removed',
+                    ),
+                    action: SnackBarAction(
+                      label: 'Undo',
+                      onPressed: () {
+                        ref
+                            .read(groceriesProvider.notifier)
+                            .addGroceries(grocery);
+                      },
+                    ),
                   ),
-                  action: SnackBarAction(
-                    label: 'Undo',
-                    onPressed: () {
-                      ref
-                          .read(groceriesProvider.notifier)
-                          .addGroceries(grocery);
-                    },
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Remove failed',
+                    ),
                   ),
-                ),
-              );
-            }
-          },
-        ),
+                );
+              }
+            },
+          );
+        },
       );
     }
 
