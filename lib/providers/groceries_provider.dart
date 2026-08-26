@@ -42,7 +42,8 @@ class GroceriesStateNotifier extends StateNotifier<List<GroceryItem>> {
     final response = await http.post(uri, body: json.encoder.convert(grocery));
 
     if (response.statusCode == 200) {
-      final result = json.decoder.convert(response.body) as Map<String, dynamic>;
+      final result =
+          json.decoder.convert(response.body) as Map<String, dynamic>;
       grocery.id = result['name'];
       state = [...state, grocery];
     }

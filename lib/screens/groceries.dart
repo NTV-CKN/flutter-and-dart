@@ -79,8 +79,6 @@ class _Groceries extends ConsumerState<Groceries> {
       content = ListView.builder(
         itemCount: groceries.length,
         itemBuilder: (ctx, index) {
-          print('Dismissable: $index ' + groceries[index].id);
-
           return Dismissible(
             key: ValueKey(groceries[index].id),
             child: GroceryItem(groceries[index]),
